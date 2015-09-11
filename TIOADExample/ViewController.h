@@ -21,8 +21,11 @@
 #else
 @interface ViewController : UIViewController <CBCentralManagerDelegate, CBPeripheralDelegate, deviceSelectorDelegate>
 #endif
+@property (strong, nonatomic) NSString *localName;
 @property (strong, nonatomic) CBCentralManager *manager;
 @property (strong,nonatomic) CBPeripheral *p;
+@property (strong,nonatomic) CBCharacteristic *cImageNotiy;
+@property (strong,nonatomic) CBCharacteristic *cImageBlock;
 #ifdef PHOBOS_SHENG_CHAN
 @property (strong, nonatomic) ShengChanViewControllerTableViewController *dSVC;
 #else
@@ -40,4 +43,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *button1;
 @property (weak, nonatomic) IBOutlet UIButton *button2;
 
+//@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *waitingIndicator;
+@property (strong, nonatomic) UIActivityIndicatorView *waitingIndicator;
 @end

@@ -39,7 +39,9 @@
             [_manager cancelPeripheralConnection:peripheral];
         }
     }
-    _devices = [NSMutableArray arrayWithCapacity:1];
+    _devices = [NSMutableArray arrayWithCapacity:10];
+    _devicesNames = [NSMutableArray arrayWithCapacity:10];
+    
     [self performSelector:@selector(installBrightnessWindow) withObject:nil afterDelay:3.0];
 }
 
@@ -66,7 +68,9 @@
 
 - (void)reConnect:(CBPeripheral*)peripheral {
     NSLog(@"%s", __func__);
-    [self.manager connectPeripheral:peripheral options:nil];
+    if (peripheral.state == CBPeripheralStateDisconnected) {
+        [self.manager connectPeripheral:peripheral options:nil];
+    }
 }
 
 #pragma mark - Table view data source
@@ -104,8 +108,9 @@
         cell.textLabel.text = @"Cancel";
     }
     if (indexPath.section == 1) {
-        CBPeripheral *p = [self.devices objectAtIndex:indexPath.row];
-        cell.textLabel.text = p.name;
+        //CBPeripheral *p = [self.devices objectAtIndex:indexPath.row];
+        //cell.textLabel.text = p.name;
+        cell.textLabel.text = [self.devicesNames objectAtIndex:indexPath.row];
     }
     return cell;
 }
@@ -115,10 +120,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __func__);
+    [self.manager stopScan];
     if (indexPath.section == 1)
     {
         self.p = [self.devices objectAtIndex:indexPath.row];
-        [self.delegate didSelectDevice:_cImageNotiy imageBlock:_cImageBlock];
+        
+        //[self.delegate didSelectDevice:_cImageNotiy imageBlock:_cImageBlock];
+        [self.delegate didSelectPeripheral:[self.devicesNames objectAtIndex:indexPath.row]];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -135,19 +143,33 @@
     NSLog(@"iRssi = %d", iRssi);
     // 只有当手机离Phobos很近的时候，才会识别。
     // 这样做是为了避免周围有很多Phobos，对配对产生混乱。
+#if 0
     if (iRssi < -59 || iRssi > 0) {
+        return;
+    }
+#endif
+    NSString *localName = advertisementData[@"kCBAdvDataLocalName"];
+    NSLog(@"localName = %@", localName);
+    
+    if (![localName hasPrefix:@"Elara"]) {
+        NSLog(@"This is not a Elara, so just return !");
         return;
     }
     if ([self.devices containsObject:peripheral]) {
         NSLog(@"OH, Let's reconnect it!");
 //        [self.manager connectPeripheral:peripheral options:nil];
-        [self performSelector:@selector(reConnect:) withObject:peripheral afterDelay:4.8];
+        //[self performSelector:@selector(reConnect:) withObject:peripheral afterDelay:4.8];
         return;
     }
     else {
-        if (self.devices.count <= 2) { // 因为我周围有20多个iBeacon，我不想影响她们
+        if (self.devices.count <= 10) { // 因为我周围有20多个iBeacon，我不想影响她们
             [self.devices addObject:peripheral];
+            [self.devicesNames addObject:localName];
+#if 0
             [self.manager connectPeripheral:peripheral options:nil];
+#else
+            [self.tableView reloadData];
+#endif
         }
     }
 }

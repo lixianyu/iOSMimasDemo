@@ -48,8 +48,8 @@
                         </subviews>
                         <color key="backgroundColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="EBv-Js-s9O" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="4Zu-ka-xwx"/>
-                            <constraint firstAttribute="trailing" secondItem="EBv-Js-s9O" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="BmM-jp-Vr9"/>
+                            <constraint firstItem="EBv-Js-s9O" firstAttribute="leading" secondItem="wSq-Dn-3ge" secondAttribute="leading" type="default" id="8gU-WX-9q0"/>
+                            <constraint firstItem="EBv-Js-s9O" firstAttribute="trailing" secondItem="wSq-Dn-3ge" secondAttribute="trailing" type="default" id="I6e-8B-0Sl"/>
                             <constraint firstItem="wSq-Dn-3ge" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="aCe-Yg-J81"/>
                             <constraint firstAttribute="bottom" secondItem="EBv-Js-s9O" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="bNO-Kw-5AR"/>
                             <constraint firstItem="EBv-Js-s9O" firstAttribute="top" secondItem="wSq-Dn-3ge" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="og3-Rb-55u"/>
@@ -135,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jeJ-BY-5XT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="633" y="216"/>
+            <point key="canvasLocation" x="820" y="195"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

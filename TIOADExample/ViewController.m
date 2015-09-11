@@ -10,7 +10,7 @@
 #import "ViewController.h"
 #import "BLEDevice.h"
 #import "BLEUtility.h"
-
+#import "AppDelegate.h"
 @interface ViewController ()
 @property (strong, nonatomic) BLEDevice *bleDevice;
 @end
@@ -21,6 +21,7 @@
 {
     NSLog(@"%s", __func__);
     [super viewDidLoad];
+    self.waitingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	// Do any additional setup after loading the view, typically from a nib.
 #ifdef PHOBOS_SHENG_CHAN
     self.dSVC = [[ShengChanViewControllerTableViewController alloc]initWithStyle:UITableViewStyleGrouped];
@@ -34,6 +35,10 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    
+}
 - (void)didReceiveMemoryWarning
 {
     NSLog(@"%s", __func__);
@@ -53,7 +58,7 @@
     NSLog(@"%s", __func__);
     [self.oadProfile selectImagePressed:self];
 //    [self testlxy];
-    [self performSelector:@selector(testLxy1) withObject:nil afterDelay:3.0];
+//    [self performSelector:@selector(testLxy1) withObject:nil afterDelay:3.0];
 //    [self performSelector:@selector(testLxy2) withObject:nil afterDelay:2.9];
 //    [self performSelector:@selector(testLxy3) withObject:nil afterDelay:2.9];
 }
@@ -179,17 +184,38 @@
     [BLEUtility writeCharacteristic:self.bleDevice.p sCBUUID:sUUID cCBUUID:cUUID data:[NSData dataWithBytes:&connData length:8]];
 }
 
-#pragma mark - deviceSelectorDelegate Callbacks
+-(void)initBLEDevice {
+    _bleDevice = [[BLEDevice alloc]init];
+    _bleDevice.p = self.dSVC.p;
+    _bleDevice.manager = self.manager;
+    _bleDevice.cImageNotiy = self.cImageNotiy;
+    _bleDevice.cImageBlock = self.cImageBlock;
+    
+    self.oadProfile = [[BLETIOADProfile alloc] initWithDevice:_bleDevice];
+    self.oadProfile.progressView = [[BLETIOADProgressViewController alloc] init];
+    [self.oadProfile makeConfigurationForProfile];
+    self.oadProfile.navCtrl = self.navigationController;
+    [self.oadProfile configureProfile];
+    self.oadProfile.view = self.view;
+}
 
--(void)didSelectDevice:(CBCharacteristic*)imageNotiy imageBlock:(CBCharacteristic *)imageBlock {
-    NSLog(@"%s, imageNotiy = %@", __func__, imageNotiy);
-    [self.button1 setTitle:[NSString stringWithFormat:@"%@ selected",self.dSVC.p.name] forState:UIControlStateNormal];
+#pragma mark - deviceSelectorDelegate Callbacks
+-(void)didSelectPeripheral:(NSString *)name {
+//-(void)didSelectDevice:(CBCharacteristic*)imageNotiy imageBlock:(CBCharacteristic *)imageBlock {
+    NSLog(@"%s, name = %@", __func__, name);
+    self.localName = name;
+    [self.button1 setTitle:[NSString stringWithFormat:@"%@ selected",name] forState:UIControlStateNormal];
     self.dSVC.p.delegate = self;
     self.manager.delegate = self;
 //    if (!self.dSVC.p.isConnected) [self.manager connectPeripheral:self.dSVC.p options:nil];
     if (self.dSVC.p.state == CBPeripheralStateDisconnected) {
-        [self.manager connectPeripheral:self.dSVC.p options:nil];
+        NSDictionary *optionsdict = @{CBConnectPeripheralOptionNotifyOnConnectionKey : [NSNumber numberWithBool:YES]};
+        [self.manager connectPeripheral:self.dSVC.p options:optionsdict];
+        self.button1.enabled = NO;
+        self.button2.enabled = NO;
+        [self showWaiting:self.view];
     }
+#if 0
     else {
         _bleDevice = [[BLEDevice alloc]init];
         _bleDevice.p = self.dSVC.p;
@@ -206,6 +232,7 @@
         
         [self updateConnParams];
     }
+#endif
     [self.button2 setEnabled:YES];
 }
 
@@ -222,7 +249,8 @@
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     NSLog(@"%s", __func__);
 #if 1
-    [peripheral discoverServices:nil];
+    NSArray *arrayUUID = [NSArray arrayWithObjects:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"], nil];
+    [peripheral discoverServices:arrayUUID];
 #else
     [self.button2 setEnabled:YES];
     [self.button2 setTitle:@"Select file" forState:UIControlStateNormal];
@@ -231,27 +259,57 @@
 
 -(void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     NSLog(@"%s", __func__);
-    [self.oadProfile deviceDisconnected:peripheral];
+    //[self.oadProfile deviceDisconnected:peripheral];
 }
 
 #pragma mark - CBPeripheralDelegate Callbacks
-
--(void) peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error  {
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     NSLog(@"%s", __func__);
+    //    [self.manager cancelPeripheralConnection:peripheral];
+    //    [self.tableView reloadData];
     for (CBService *s in peripheral.services) {
-        [peripheral discoverCharacteristics:nil forService:s];
+        if ([s.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
+            [peripheral discoverCharacteristics:nil forService:s];
+        }
+#if 0
+        else if ([s.UUID isEqual:[CBUUID UUIDWithString:@"180A"]]) {
+            [peripheral discoverCharacteristics:nil forService:s];
+        }
+        else if ([s.UUID isEqual:[CBUUID UUIDWithString:@"CCC0"]]) {
+            [peripheral discoverCharacteristics:nil forService:s];
+        }
+        else if ([s.UUID isEqual:[CBUUID UUIDWithString:@"013d8e3b-1877-4d5c-bc59-aaa7e5082346"]]) {
+            [peripheral discoverCharacteristics:nil forService:s];
+        }
+#endif
     }
-//    [self performSelector:@selector(updateConnParams) withObject:nil afterDelay:1.5];
-    
 }
+
 -(void) peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     NSLog(@"%s", __func__);
     NSLog(@"Service : %@", service.UUID);
     NSLog(@"Characteristic : %@", service.characteristics);
-    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"0xF000FFC0-0451-4000-B000-000000000000"]]) {
-        [self setButton2Title];
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
+        for (CBCharacteristic *characteristic in service.characteristics) {
+            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C1-0451-4000-B000-000000000000"]]) {
+                _cImageNotiy = characteristic;
+            }
+            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C2-0451-4000-B000-000000000000"]]) {
+                _cImageBlock = characteristic;
+                
+                [self initBLEDevice];
+                [self hideWaiting];
+            }
+        }
+        //        [self performSelector:@selector(letUsreloadData) withObject:nil afterDelay:1.0];
     }
+#if 0
+    else if ([service.UUID isEqual:[CBUUID UUIDWithString:@"CCC0"]]) {
+        [self performSelector:@selector(letUsreloadData) withObject:nil afterDelay:1.0];
+    }
+#endif
 }
+
 - (void)setButton2Title {
     NSLog(@"%s", __func__);
     [self.button2 setEnabled:YES];
@@ -259,6 +317,7 @@
 }
 
 -(void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    NSLog(@"%s", __func__);
     NSLog(@"%s, characteristic = %@", __func__, characteristic);
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"2A25"]]) {
         unsigned char data[characteristic.value.length];
@@ -277,5 +336,53 @@
 -(void) peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     NSLog(@"%s, characteristic uuid = %@, error = %@", __func__, characteristic.UUID.UUIDString, error);
     
+}
+
+//显示进度滚轮指示器
+
+-(void)showWaiting:(UIView *)parent {
+    int width = 32, height = 32;
+    
+    CGRect frame = CGRectMake(100, 200, 110, 70) ;//[parent frame]; //[[UIScreen mainScreen] applicationFrame];
+    int x = frame.size.width;
+    int y = frame.size.height;
+    
+    frame = CGRectMake((x - width) / 2, (y - height) / 2, width, height);
+    
+    //if (self.waitingIndicator == nil) {
+        self.waitingIndicator = [[UIActivityIndicatorView alloc]initWithFrame:frame];
+    //}
+    [self.waitingIndicator startAnimating];
+    
+    self.waitingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    
+    frame = CGRectMake((x - 70)/2, (y - height) / 2 + height, 80, 20);
+    
+    UILabel *waitingLable = [[UILabel alloc] initWithFrame:frame];
+    waitingLable.text = @"Connecting...";
+    waitingLable.textColor = [UIColor whiteColor];
+    waitingLable.font = [UIFont systemFontOfSize:15];
+    waitingLable.backgroundColor = [UIColor clearColor];
+    
+    frame =  CGRectMake(100, 200, 110, 70) ;//[parent frame];
+    UIView *theView = [[UIView alloc] initWithFrame:frame];
+    theView.backgroundColor = [UIColor blackColor];
+    
+    theView.alpha = 0.7;
+    [theView addSubview:self.waitingIndicator];
+    [theView addSubview:waitingLable];
+    [theView setTag:9999];
+    
+    [parent addSubview:theView];
+    [self.view.window bringSubviewToFront:theView];
+}
+
+//消除滚动轮指示器
+-(void)hideWaiting
+{
+    self.button1.enabled = YES;
+    self.button2.enabled = YES;
+    [[self.view viewWithTag:9999] removeFromSuperview];
+    self.waitingIndicator = nil;
 }
 @end

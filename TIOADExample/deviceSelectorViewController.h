@@ -12,12 +12,13 @@
 @protocol deviceSelectorDelegate <NSObject>
 
 -(void) didSelectDevice:(CBCharacteristic*)imageNotiy imageBlock:(CBCharacteristic*)imageBlock;
-
+-(void) didSelectPeripheral:(NSString*)name;
 @end
 
 @interface deviceSelectorViewController : UITableViewController <CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (strong,nonatomic) NSMutableArray *devices;
+@property (strong,nonatomic) NSMutableArray *devicesNames;
 @property (strong,nonatomic) CBCentralManager *manager;
 @property (strong,nonatomic) CBPeripheral *p;
 @property (strong,nonatomic) CBCharacteristic *cImageNotiy;

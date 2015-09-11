@@ -21,8 +21,6 @@
 		7F38C327169AEFF000E239F9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F38C326169AEFF000E239F9 /* ViewController.m */; };
 		7F38C32E169AF4A100E239F9 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F38C32D169AF4A100E239F9 /* CoreBluetooth.framework */; };
 		7F38C331169AF52800E239F9 /* deviceSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F38C330169AF52800E239F9 /* deviceSelectorViewController.m */; };
-		7F38C39A169B0F4500E239F9 /* SensorTagImgA.bin in Resources */ = {isa = PBXBuildFile; fileRef = 7F38C398169B0F4400E239F9 /* SensorTagImgA.bin */; };
-		7F38C39B169B0F4500E239F9 /* SensorTagImgB.bin in Resources */ = {isa = PBXBuildFile; fileRef = 7F38C399169B0F4500E239F9 /* SensorTagImgB.bin */; };
 		7F6A7804169B116A00DF5A5C /* BLETIOADProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F6A7802169B116A00DF5A5C /* BLETIOADProfile.m */; };
 		7F6A7805169B116A00DF5A5C /* BLEDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F6A7803169B116A00DF5A5C /* BLEDevice.m */; };
 		7F6A780B169B11F800DF5A5C /* BLETIOADProgressDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F6A7808169B11F800DF5A5C /* BLETIOADProgressDialog.m */; };
@@ -37,7 +35,8 @@
 		7FB5602618154055005B41CC /* BLETIOADProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB5602518154055005B41CC /* BLETIOADProgressViewController.m */; };
 		EE0D5C341B2FCB6D00DDD88D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0D5C331B2FCB6D00DDD88D /* Images.xcassets */; };
 		EE12A8811A2490EC0086F85D /* PhobosDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE12A8801A2490EC0086F85D /* PhobosDetailViewController.m */; };
-		EE414B76195C0417003D105B /* PhobosCC2541ImgB.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE414B75195C0417003D105B /* PhobosCC2541ImgB.bin */; };
+		EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDB1BA2AAF500F064B2 /* blink.bin */; };
+		EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDD1BA2AB0000F064B2 /* blink1.bin */; };
 		EEDF5B781941AEA80052B875 /* MTLogPluginFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */; };
 		EEDF5B791941AEA80052B875 /* MTLogPluginPrefix.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6F1941AEA80052B875 /* MTLogPluginPrefix.m */; };
 		EEDF5B7A1941AEA80052B875 /* MTLogPluginRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B711941AEA80052B875 /* MTLogPluginRegister.m */; };
@@ -70,8 +69,6 @@
 		7F38C32F169AF52800E239F9 /* deviceSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deviceSelectorViewController.h; sourceTree = "<group>"; };
 		7F38C330169AF52800E239F9 /* deviceSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = deviceSelectorViewController.m; sourceTree = "<group>"; };
 		7F38C395169B0CA900E239F9 /* oad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oad.h; sourceTree = "<group>"; };
-		7F38C398169B0F4400E239F9 /* SensorTagImgA.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = SensorTagImgA.bin; sourceTree = "<group>"; };
-		7F38C399169B0F4500E239F9 /* SensorTagImgB.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = SensorTagImgB.bin; sourceTree = "<group>"; };
 		7F6A7800169B116A00DF5A5C /* BLETIOADProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLETIOADProfile.h; sourceTree = "<group>"; };
 		7F6A7801169B116A00DF5A5C /* BLEDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDevice.h; sourceTree = "<group>"; };
 		7F6A7802169B116A00DF5A5C /* BLETIOADProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLETIOADProfile.m; sourceTree = "<group>"; };
@@ -93,7 +90,8 @@
 		EE0D5C331B2FCB6D00DDD88D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EE12A87F1A2490EC0086F85D /* PhobosDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhobosDetailViewController.h; sourceTree = "<group>"; };
 		EE12A8801A2490EC0086F85D /* PhobosDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhobosDetailViewController.m; sourceTree = "<group>"; };
-		EE414B75195C0417003D105B /* PhobosCC2541ImgB.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = PhobosCC2541ImgB.bin; sourceTree = "<group>"; };
+		EE2A0FDB1BA2AAF500F064B2 /* blink.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = blink.bin; sourceTree = "<group>"; };
+		EE2A0FDD1BA2AB0000F064B2 /* blink1.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = blink1.bin; sourceTree = "<group>"; };
 		EEDF5B6C1941AEA80052B875 /* MTLogPluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginFilter.h; sourceTree = "<group>"; };
 		EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLogPluginFilter.m; sourceTree = "<group>"; };
 		EEDF5B6E1941AEA80052B875 /* MTLogPluginPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginPrefix.h; sourceTree = "<group>"; };
@@ -192,9 +190,8 @@
 		7F6A781B169B2F2700DF5A5C /* Integrated Firmware Files */ = {
 			isa = PBXGroup;
 			children = (
-				EE414B75195C0417003D105B /* PhobosCC2541ImgB.bin */,
-				7F38C398169B0F4400E239F9 /* SensorTagImgA.bin */,
-				7F38C399169B0F4500E239F9 /* SensorTagImgB.bin */,
+				EE2A0FDD1BA2AB0000F064B2 /* blink1.bin */,
+				EE2A0FDB1BA2AAF500F064B2 /* blink.bin */,
 			);
 			name = "Integrated Firmware Files";
 			sourceTree = "<group>";
@@ -343,13 +340,12 @@
 			files = (
 				7F38C312169AEFF000E239F9 /* InfoPlist.strings in Resources */,
 				7F38C31A169AEFF000E239F9 /* Default.png in Resources */,
+				EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */,
+				EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */,
 				7F38C31C169AEFF000E239F9 /* Default@2x.png in Resources */,
 				7F38C31E169AEFF000E239F9 /* Default-568h@2x.png in Resources */,
 				7F38C321169AEFF000E239F9 /* MainStoryboard_iPhone.storyboard in Resources */,
 				7F38C324169AEFF000E239F9 /* MainStoryboard_iPad.storyboard in Resources */,
-				7F38C39A169B0F4500E239F9 /* SensorTagImgA.bin in Resources */,
-				EE414B76195C0417003D105B /* PhobosCC2541ImgB.bin in Resources */,
-				7F38C39B169B0F4500E239F9 /* SensorTagImgB.bin in Resources */,
 				7F91234A16D3A19000549155 /* icon@2x_144.png in Resources */,
 				7F91234B16D3A19000549155 /* icon_72.png in Resources */,
 				EE0D5C341B2FCB6D00DDD88D /* Images.xcassets in Resources */,

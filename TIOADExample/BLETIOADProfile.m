@@ -32,9 +32,9 @@
     NSLog(@"%s", __func__);
     if (!self.d.setupData) self.d.setupData = [[NSMutableDictionary alloc] init];
     // Append the UUID to make it easy for app
-    [self.d.setupData setValue:@"0xF000FFC0-0451-4000-B000-000000000000" forKey:@"OAD Service UUID"];
-    [self.d.setupData setValue:@"0xF000FFC1-0451-4000-B000-000000000000" forKey:@"OAD Image Notify UUID"];
-    [self.d.setupData setValue:@"0xF000FFC2-0451-4000-B000-000000000000" forKey:@"OAD Image Block Request UUID"];
+    [self.d.setupData setValue:@"0xF000F0C0-0451-4000-B000-000000000000" forKey:@"OAD Service UUID"];
+    [self.d.setupData setValue:@"0xF000F0C1-0451-4000-B000-000000000000" forKey:@"OAD Image Notify UUID"];
+    [self.d.setupData setValue:@"0xF000F0C2-0451-4000-B000-000000000000" forKey:@"OAD Image Block Request UUID"];
 #if 0
     [self.d.setupData setValue:@"0xF000CCC0-0451-4000-B000-000000000000" forKey:@"CC Service UUID"];
     [self.d.setupData setValue:@"0xF000CCC1-0451-4000-B000-000000000000" forKey:@"CC Conn. Params UUID"];
@@ -49,6 +49,7 @@
     NSLog(@"%@",self.d.setupData);
 }
 
+#if 0
 -(void) configureProfile {
     NSLog(@"Configurating OAD Profile");
 //    CBUUID *sUUID = [CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Service UUID"]];
@@ -64,7 +65,14 @@
     
     [self performSelector:@selector(checkTest) withObject:nil afterDelay:2.0];
 }
+#else
+-(void) configureProfile {
+    NSLog(@"%s", __func__);
+    [self.d.p setNotifyValue:YES forCharacteristic:self.d.cImageNotiy];
+    self.start = YES;
 
+}
+#endif
 - (void) checkTest {
     NSLog(@"%s, cImageBlock = %@", __func__, self.d.cImageBlock);
 }
@@ -83,7 +91,7 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Device disconnected !" message:@"Unable to start programming when device is not connected ..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Reconnect",nil];
         [alertView show];
         alertView.tag = 1;
-        return;
+        //return;
     }
     _idViewController = sender;
     UIActionSheet *selectImageActionSheet = [[UIActionSheet alloc]initWithTitle:@"Select image from" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Internal Image ...",@"Shared files ...",nil];
@@ -99,7 +107,7 @@
         case 0: {
             switch(buttonIndex) {
                 case 0: {
-                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"SensorTagImgA.bin",@"SensorTagImgB.bin", nil];
+                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink.bin",@"blink1.bin", nil];
                     selectInternalFirmwareSheet.tag = 1;
                     [selectInternalFirmwareSheet showInView:self.view];
                     break;
@@ -127,14 +135,14 @@
                 case 0: {
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
-                    [path appendString:@"SensorTagImgA.bin"];
+                    [path appendString:@"blink.bin"];
                     [self validateImage:path];
                     break;
                 }
                 case 1: {
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
-                    [path appendString:@"SensorTagImgB.bin"];
+                    [path appendString:@"blink1.bin"];
                     [self validateImage:path];
                     break;
                 }
@@ -266,8 +274,8 @@
         self.progressView.label2.text = [NSString stringWithFormat:@"Time remaining : %d:%02d",(int)(secondsLeft / 60),(int)secondsLeft - (int)(secondsLeft / 60) * (int)60];
     }
     else {
-        self.progressDialog.progressBar.progress = (float)((float)self.iBlocks / (float)self.nBlocks);
-        self.progressDialog.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBlocks / (float)self.nBlocks) * 100.0f];
+        //self.progressDialog.progressBar.progress = (float)((float)self.iBlocks / (float)self.nBlocks);
+        //self.progressDialog.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBlocks / (float)self.nBlocks) * 100.0f];
         self.progressDialog.label2.text = [NSString stringWithFormat:@"Time remaining : %d:%02d",(int)(secondsLeft / 60),(int)secondsLeft - (int)(secondsLeft / 60) * (int)60];
     }
     
@@ -275,7 +283,6 @@
         self.start = NO;
         if ([BLEUtility runningiOSSeven]) {
             [self.navCtrl pushViewController:self.progressView animated:YES];
-            
         }
         else {
             self.progressDialog = [[BLETIOADProgressDialog alloc]initWithFrame:CGRectMake((self.view.bounds.size.width / 2) - 150, (self.view.bounds.size.height /2) - 80, self.view.bounds.size.width, 160)];
@@ -417,6 +424,90 @@
     }
 }
 
+-(void) uploadBinBegin:(NSString *)filename {
+    NSLog(@"%s", __func__);
+    [self.d.p setNotifyValue:YES forCharacteristic:self.d.cImageBlock];
+    self.canceled = NO;
+    self.inProgramming = YES;
+    
+    self.nBytes = self.imageFile.length;
+    self.iBytes = 0;
+    NSLog(@"iBytes = %d, nBytes = %d", self.iBytes, self.nBytes);
+    
+    _imageFileData = malloc(self.imageFile.length + OAD_BLOCK_SIZE);
+    [self.imageFile getBytes:_imageFileData];
+
+    [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.01];
+}
+
+-(void) uploadBinTickNotify:(NSNumber*)blockNumber {
+    NSLog(@"%s, blockNum = %@", __func__, blockNumber);
+    if (self.canceled) {
+        self.canceled = FALSE;
+        return;
+    }
+    //Prepare Block
+    uint8_t requestData[OAD_BLOCK_SIZE];
+    memcpy(requestData, _imageFileData + self.iBytes, OAD_BLOCK_SIZE);
+    if (self.iBytes < self.nBytes) {
+        [self.d.p writeValue:[NSData dataWithBytes:requestData length:OAD_BLOCK_SIZE] forCharacteristic:self.d.cImageBlock type:CBCharacteristicWriteWithoutResponse];
+    }
+    self.iBytes += OAD_BLOCK_SIZE;
+#if 0
+    if(self.iBlocks == self.nBlocks) {
+        if ([BLEUtility runningiOSSeven]) {
+            [self.navCtrl popToRootViewControllerAnimated:YES];
+        }
+        else [self.progressDialog dismissWithClickedButtonIndex:0 animated:YES];
+        self.inProgramming = NO;
+        [self completionDialog];
+        return;
+    }
+#else
+    if (self.iBytes >= self.nBytes) {
+        if ([BLEUtility runningiOSSeven]) {
+            [self.navCtrl popToRootViewControllerAnimated:YES];
+        }
+        else [self.progressDialog dismissWithClickedButtonIndex:0 animated:YES];
+        self.inProgramming = NO;
+        [self completionDialog];
+        return;
+    }
+#endif
+    if (self.iBytes % 8) {
+        return;
+    }
+    self.progressDialog.progressBar.progress = (float)((float)self.iBytes / (float)self.nBytes);
+    self.progressDialog.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBytes / (float)self.nBytes) * 100.0f];
+    //    float secondsPerBlock = 0.12 / 4;
+    float secondsPerBlock = 0.12;
+    float secondsLeft = (float)(self.nBytes - self.iBytes) * secondsPerBlock;
+    
+    if ([BLEUtility runningiOSSeven]) {
+        self.progressView.progressBar.progress = (float)((float)self.iBlocks / (float)self.nBlocks);
+        self.progressView.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBlocks / (float)self.nBlocks) * 100.0f];
+        self.progressView.label2.text = [NSString stringWithFormat:@"Time remaining : %d:%02d",(int)(secondsLeft / 60),(int)secondsLeft - (int)(secondsLeft / 60) * (int)60];
+    }
+    else {
+//        self.progressDialog.progressBar.progress = (float)((float)self.iBlocks / (float)self.nBlocks);
+//        self.progressDialog.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBlocks / (float)self.nBlocks) * 100.0f];
+        self.progressDialog.label2.text = [NSString stringWithFormat:@"Time remaining : %d:%02d",(int)(secondsLeft / 60),(int)secondsLeft - (int)(secondsLeft / 60) * (int)60];
+    }
+    
+    //    NSLog(@".");
+    if (self.start) {
+        self.start = NO;
+        if ([BLEUtility runningiOSSeven]) {
+            [self.navCtrl pushViewController:self.progressView animated:YES];
+        }
+        else {
+            self.progressDialog = [[BLETIOADProgressDialog alloc]initWithFrame:CGRectMake((self.view.bounds.size.width / 2) - 150, (self.view.bounds.size.height /2) - 80, self.view.bounds.size.width, 160)];
+            self.progressDialog.delegate = self;
+            [self.progressDialog show];
+        }
+    }
+}
+
 -(void) didUpdateValueForProfile:(CBCharacteristic *)characteristic {
     NSLog(@"%s", __func__);
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
@@ -481,23 +572,43 @@
     }
 }
 
+#if 0
 -(BOOL)validateImage:(NSString *)filename {
     NSLog(@"%s", __func__);
     self.imageFile = [NSData dataWithContentsOfFile:filename];
     NSLog(@"Loaded firmware \"%@\"of size : %d",filename,self.imageFile.length);
     if ([self isCorrectImage]) {
-//        [self uploadImageNotify:filename];
-        [self uploadImage:filename];
+        [self uploadImageNotify:filename];
+        //[self uploadImage:filename];
     }
     else {
         UIAlertView *wrongImage = [[UIAlertView alloc]initWithTitle:@"Wrong image type !" message:[NSString stringWithFormat:@"Image that was selected was of type : %c, which is the same as on the peripheral, please select another image",(self.imgVersion & 0x01) ? 'B' : 'A'] delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
         [wrongImage show];
+        NSLog(@"hehe");
     }
     return NO;
 }
+#else
+-(BOOL)validateImage:(NSString *)filename {
+    NSLog(@"%s", __func__);
+    self.imageFile = [NSData dataWithContentsOfFile:filename];
+    NSLog(@"Loaded firmware \"%@\"of size : %d",filename,self.imageFile.length);
+    
+    NSInteger size = self.imageFile.length;
+    uint8_t requestData[4];
+    requestData[0] = size & 0xff;
+    requestData[1] = (size >> 8) & 0xff;
+    requestData[2] = (size >> 16) & 0xff;
+    requestData[3] = (size >> 24) & 0xff;
+    [self.d.p writeValue:[NSData dataWithBytes:requestData length:sizeof(requestData)] forCharacteristic:self.d.cImageNotiy type:CBCharacteristicWriteWithResponse];
+    
+    return YES;
+}
+#endif
 
 -(BOOL) isCorrectImage {
     NSLog(@"%s", __func__);
+    return NO;
     unsigned char imageFileData[self.imageFile.length];
     [self.imageFile getBytes:imageFileData];
     
@@ -576,22 +687,28 @@
     NSLog(@"%s,characteristic = %@, error = %@", __func__, characteristic, error);
 //    [self didUpdateValueForProfile:characteristic];
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Block Request UUID"]]]) {
-        // TODO write the next block
         uint8 datas[characteristic.value.length];
-//        NSLog(@"characteristic.value.length = %d", characteristic.value.length);
         [characteristic.value getBytes:datas];
-        uint16 blockNum = ((uint16_t)datas[1] << 8 & 0xff00) | ((uint16_t)datas[0] & 0xff);
-//        NSLog(@"blockNum = %d", blockNum);
-        [self performSelector:@selector(programmingTimerTickNotify:) withObject:[NSNumber numberWithUnsignedShort:blockNum]];
+        uint16_t size = (datas[0]&0xff) | (uint16_t)(datas[1]<<8 & 0xff00);
+        NSLog(@"size = %d", size);
+
+        if (size != 0) {
+            [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:size]];
+        }
     }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
-        if (self.imgVersion == 0xFFFF) {
-            unsigned char data[characteristic.value.length];
-            [characteristic.value getBytes:&data];
-            self.imgVersion = ((uint16_t)data[1] << 8 & 0xff00) | ((uint16_t)data[0] & 0xff);
-            NSLog(@"self.imgVersion from BLE : %04hx", self.imgVersion);
+        //        NSLog(@"OAD Image notify : %@", characteristic.value);
+        uint8 datas[characteristic.value.length];
+        [characteristic.value getBytes:datas];
+        NSInteger avSize = ((NSInteger)(datas[0]&0xff))|((NSInteger)(datas[1]<<8 & 0xff00))|((NSInteger)(datas[2]<<16 & 0xff0000))|((NSInteger)(datas[3]<<24 & 0xff000000));
+        NSLog(@"avSize = %d", avSize);
+        if (avSize == 0) {
+            UIAlertView *wrongImage = [[UIAlertView alloc]initWithTitle:@"Wrong Size!" message:@"The bin size is too big!" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+            [wrongImage show];
         }
-//        NSLog(@"OAD Image notify : %@", characteristic.value);
+        else {
+            [self performSelector:@selector(uploadBinBegin:) withObject:@"hehe" afterDelay:1.1];
+        }
     }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"2A25"]]) {
         unsigned char data[characteristic.value.length+1];

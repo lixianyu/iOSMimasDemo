@@ -12,22 +12,34 @@
 	<dict>
 		<key>8202DF01C32FDD8E256ED309D51BF27C35B61B0C</key>
 		<string>https://bitbucket.org/lixianyu/tioadexample.git</string>
+		<key>F32C37F6C576D9BBB0F611FCE8D3FC2780771190</key>
+		<string>https://bitbucket.org/lixianyu/elaraiphone.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>TIOADExample.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>8202DF01C32FDD8E256ED309D51BF27C35B61B0C</key>
+		<string>../../../Over%20the%20Air%20Download%20%20Example%20Source%20Code%201.1.0</string>
+		<key>F32C37F6C576D9BBB0F611FCE8D3FC2780771190</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/lixianyu/tioadexample.git</string>
+	<string>https://bitbucket.org/lixianyu/elaraiphone.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>8202DF01C32FDD8E256ED309D51BF27C35B61B0C</string>
+	<string>F32C37F6C576D9BBB0F611FCE8D3FC2780771190</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F32C37F6C576D9BBB0F611FCE8D3FC2780771190</string>
+			<key>IDESourceControlWCCName</key>
+			<string>elaraiphone</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
