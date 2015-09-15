@@ -11,8 +11,24 @@
 #import "BLETIOADProgressDialog.h"
 #import "BLEUtility.h"
 
+typedef enum {
+    m328 = 0,
+    m328p,
+    m644,
+    m644p,
+    m1284,
+    m1284p,
+}t_part_id;
 
-@implementation BLETIOADProfile
+@interface BLETIOADProfile ()
+@property (strong, nonatomic) BLEDevice *bleDevice;
+@end
+
+@implementation BLETIOADProfile {
+    t_part_id g_PartID;
+    float secondsPerBlock;
+    float secondsLeft;
+}
 
 -(id) initWithDevice:(BLEDevice *) dev {
     NSLog(@"%s", __func__);
@@ -24,6 +40,7 @@
         self.canceled = FALSE;
         self.inProgramming = FALSE;
         self.start = YES;
+        g_PartID = m328p;
     }
     return self;
 }
@@ -133,6 +150,7 @@
         case 1: {
             switch (buttonIndex) {
                 case 0: {
+                    g_PartID = m328p;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"blink.bin"];
@@ -140,6 +158,7 @@
                     break;
                 }
                 case 1: {
+                    g_PartID = m328p;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"blink1.bin"];
@@ -147,6 +166,7 @@
                     break;
                 }
                 case 2: {
+                    g_PartID = m644p;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"Blink.short.bin"];
@@ -154,6 +174,7 @@
                     break;
                 }
                 case 3: {
+                    g_PartID = m644p;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"Blink.cpp.bin"];
@@ -450,7 +471,7 @@
     
     _imageFileData = malloc(self.imageFile.length + OAD_BLOCK_SIZE);
     [self.imageFile getBytes:_imageFileData];
-
+    secondsPerBlock = 0.04375;
     [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.01];
 }
 
@@ -491,15 +512,15 @@
     if (self.iBytes % 8) {
         return;
     }
-    self.progressDialog.progressBar.progress = (float)((float)self.iBytes / (float)self.nBytes);
-    self.progressDialog.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBytes / (float)self.nBytes) * 100.0f];
+    //self.progressDialog.progressBar.progress = (float)((float)self.iBytes / (float)self.nBytes);
+    //self.progressDialog.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBytes / (float)self.nBytes) * 100.0f];
     //    float secondsPerBlock = 0.12 / 4;
-    float secondsPerBlock = 0.12;
-    float secondsLeft = (float)(self.nBytes - self.iBytes) * secondsPerBlock;
+    
+    secondsLeft = (float)(self.nBytes - self.iBytes) * secondsPerBlock;
     
     if ([BLEUtility runningiOSSeven]) {
-        self.progressView.progressBar.progress = (float)((float)self.iBlocks / (float)self.nBlocks);
-        self.progressView.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBlocks / (float)self.nBlocks) * 100.0f];
+        self.progressView.progressBar.progress = (float)((float)self.iBytes / (float)self.nBytes);
+        self.progressView.label1.text = [NSString stringWithFormat:@"%0.1f%%",(float)((float)self.iBytes / (float)self.nBytes) * 100.0f];
         self.progressView.label2.text = [NSString stringWithFormat:@"Time remaining : %d:%02d",(int)(secondsLeft / 60),(int)secondsLeft - (int)(secondsLeft / 60) * (int)60];
     }
     else {
@@ -609,11 +630,12 @@
     NSLog(@"Loaded firmware \"%@\"of size : %d",filename,self.imageFile.length);
     
     NSInteger size = self.imageFile.length;
-    uint8_t requestData[4];
+    uint8_t requestData[5];
     requestData[0] = size & 0xff;
     requestData[1] = (size >> 8) & 0xff;
     requestData[2] = (size >> 16) & 0xff;
     requestData[3] = (size >> 24) & 0xff;
+    requestData[4] = g_PartID;
     [self.d.p writeValue:[NSData dataWithBytes:requestData length:sizeof(requestData)] forCharacteristic:self.d.cImageNotiy type:CBCharacteristicWriteWithResponse];
     
     return YES;
