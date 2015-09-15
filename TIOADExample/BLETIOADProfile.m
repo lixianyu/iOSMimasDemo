@@ -107,7 +107,7 @@
         case 0: {
             switch(buttonIndex) {
                 case 0: {
-                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink.bin",@"blink1.bin", nil];
+                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",@"Blink644pShort.bin",@"Blink644pLong.bin", nil];
                     selectInternalFirmwareSheet.tag = 1;
                     [selectInternalFirmwareSheet showInView:self.view];
                     break;
@@ -143,6 +143,20 @@
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"blink1.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 2: {
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"Blink.short.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 3: {
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"Blink.cpp.bin"];
                     [self validateImage:path];
                     break;
                 }

@@ -37,6 +37,8 @@
 		EE12A8811A2490EC0086F85D /* PhobosDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE12A8801A2490EC0086F85D /* PhobosDetailViewController.m */; };
 		EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDB1BA2AAF500F064B2 /* blink.bin */; };
 		EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDD1BA2AB0000F064B2 /* blink1.bin */; };
+		EE2A0FE01BA7CADB00F064B2 /* Blink.cpp.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDF1BA7CADB00F064B2 /* Blink.cpp.bin */; };
+		EE2A0FE21BA80C2B00F064B2 /* Blink.short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FE11BA80C2B00F064B2 /* Blink.short.bin */; };
 		EEDF5B781941AEA80052B875 /* MTLogPluginFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */; };
 		EEDF5B791941AEA80052B875 /* MTLogPluginPrefix.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6F1941AEA80052B875 /* MTLogPluginPrefix.m */; };
 		EEDF5B7A1941AEA80052B875 /* MTLogPluginRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B711941AEA80052B875 /* MTLogPluginRegister.m */; };
@@ -92,6 +94,8 @@
 		EE12A8801A2490EC0086F85D /* PhobosDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhobosDetailViewController.m; sourceTree = "<group>"; };
 		EE2A0FDB1BA2AAF500F064B2 /* blink.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = blink.bin; sourceTree = "<group>"; };
 		EE2A0FDD1BA2AB0000F064B2 /* blink1.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = blink1.bin; sourceTree = "<group>"; };
+		EE2A0FDF1BA7CADB00F064B2 /* Blink.cpp.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = Blink.cpp.bin; sourceTree = "<group>"; };
+		EE2A0FE11BA80C2B00F064B2 /* Blink.short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = Blink.short.bin; sourceTree = "<group>"; };
 		EEDF5B6C1941AEA80052B875 /* MTLogPluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginFilter.h; sourceTree = "<group>"; };
 		EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLogPluginFilter.m; sourceTree = "<group>"; };
 		EEDF5B6E1941AEA80052B875 /* MTLogPluginPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginPrefix.h; sourceTree = "<group>"; };
@@ -190,6 +194,8 @@
 		7F6A781B169B2F2700DF5A5C /* Integrated Firmware Files */ = {
 			isa = PBXGroup;
 			children = (
+				EE2A0FE11BA80C2B00F064B2 /* Blink.short.bin */,
+				EE2A0FDF1BA7CADB00F064B2 /* Blink.cpp.bin */,
 				EE2A0FDD1BA2AB0000F064B2 /* blink1.bin */,
 				EE2A0FDB1BA2AAF500F064B2 /* blink.bin */,
 			);
@@ -340,6 +346,7 @@
 			files = (
 				7F38C312169AEFF000E239F9 /* InfoPlist.strings in Resources */,
 				7F38C31A169AEFF000E239F9 /* Default.png in Resources */,
+				EE2A0FE21BA80C2B00F064B2 /* Blink.short.bin in Resources */,
 				EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */,
 				EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */,
 				7F38C31C169AEFF000E239F9 /* Default@2x.png in Resources */,
@@ -348,6 +355,7 @@
 				7F38C324169AEFF000E239F9 /* MainStoryboard_iPad.storyboard in Resources */,
 				7F91234A16D3A19000549155 /* icon@2x_144.png in Resources */,
 				7F91234B16D3A19000549155 /* icon_72.png in Resources */,
+				EE2A0FE01BA7CADB00F064B2 /* Blink.cpp.bin in Resources */,
 				EE0D5C341B2FCB6D00DDD88D /* Images.xcassets in Resources */,
 				7F91235316D3A1F700549155 /* icon_57@2x_114.png in Resources */,
 				7F91235916D3A23300549155 /* icon_57@2x_114.png in Resources */,
