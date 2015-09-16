@@ -249,7 +249,7 @@
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     NSLog(@"%s", __func__);
 #if 1
-    NSArray *arrayUUID = [NSArray arrayWithObjects:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"], nil];
+    NSArray *arrayUUID = [NSArray arrayWithObjects:[CBUUID UUIDWithString:@"F0C0"], nil];
     [peripheral discoverServices:arrayUUID];
 #else
     [self.button2 setEnabled:YES];
@@ -268,7 +268,8 @@
     //    [self.manager cancelPeripheralConnection:peripheral];
     //    [self.tableView reloadData];
     for (CBService *s in peripheral.services) {
-        if ([s.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
+        //if ([s.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
+        if ([s.UUID isEqual:[CBUUID UUIDWithString:@"F0C0"]]) {
             [peripheral discoverCharacteristics:nil forService:s];
         }
 #if 0
@@ -289,12 +290,15 @@
     NSLog(@"%s", __func__);
     NSLog(@"Service : %@", service.UUID);
     NSLog(@"Characteristic : %@", service.characteristics);
-    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
+    //if ([service.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"F0C0"]]) {
         for (CBCharacteristic *characteristic in service.characteristics) {
-            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C1-0451-4000-B000-000000000000"]]) {
+            //if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C1-0451-4000-B000-000000000000"]]) {
+            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C1"]]) {
                 _cImageNotiy = characteristic;
             }
-            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C2-0451-4000-B000-000000000000"]]) {
+            //else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C2-0451-4000-B000-000000000000"]]) {
+            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C2"]]) {
                 _cImageBlock = characteristic;
                 
                 [self initBLEDevice];
@@ -317,8 +321,8 @@
 }
 
 -(void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    NSLog(@"%s", __func__);
-    NSLog(@"%s, characteristic = %@", __func__, characteristic);
+    //NSLog(@"%s", __func__);
+    //NSLog(@"%s, characteristic = %@", __func__, characteristic);
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"2A25"]]) {
         unsigned char data[characteristic.value.length];
         [characteristic.value getBytes:&data];
@@ -328,7 +332,8 @@
         NSString *serialNumber = [NSString stringWithUTF8String:data];
         NSLog(@"serialNumber = %@", serialNumber);
     }
-    else {
+    else
+    {
         [self.oadProfile didUpdateValueForProfile:characteristic];
     }
 }

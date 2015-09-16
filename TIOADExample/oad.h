@@ -84,7 +84,7 @@ extern "C"
 #define OAD_IMG_HDR_SIZE      ( 2 + 2 + OAD_IMG_ID_SIZE )
     
     // The Image is transporte in 16-byte blocks in order to avoid using blob operations.
-#define OAD_BLOCK_SIZE        16
+#define OAD_BLOCK_SIZE        20 //经过试验，这个字节大小对于CC2541来讲是效率最高的了
 #define OAD_BLOCKS_PER_PAGE  (HAL_FLASH_PAGE_SIZE / OAD_BLOCK_SIZE)
 #define OAD_BLOCK_MAX        (OAD_BLOCKS_PER_PAGE * OAD_IMG_D_AREA)
     

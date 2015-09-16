@@ -26,8 +26,9 @@ typedef enum {
 
 @implementation BLETIOADProfile {
     t_part_id g_PartID;
-    float secondsPerBlock;
+    double secondsPerBlock;
     float secondsLeft;
+    NSTimer *gTimer;
 }
 
 -(id) initWithDevice:(BLEDevice *) dev {
@@ -49,15 +50,20 @@ typedef enum {
     NSLog(@"%s", __func__);
     if (!self.d.setupData) self.d.setupData = [[NSMutableDictionary alloc] init];
     // Append the UUID to make it easy for app
+#if 0
     [self.d.setupData setValue:@"0xF000F0C0-0451-4000-B000-000000000000" forKey:@"OAD Service UUID"];
     [self.d.setupData setValue:@"0xF000F0C1-0451-4000-B000-000000000000" forKey:@"OAD Image Notify UUID"];
     [self.d.setupData setValue:@"0xF000F0C2-0451-4000-B000-000000000000" forKey:@"OAD Image Block Request UUID"];
-#if 0
+
     [self.d.setupData setValue:@"0xF000CCC0-0451-4000-B000-000000000000" forKey:@"CC Service UUID"];
     [self.d.setupData setValue:@"0xF000CCC1-0451-4000-B000-000000000000" forKey:@"CC Conn. Params UUID"];
     [self.d.setupData setValue:@"0xF000CCC2-0451-4000-B000-000000000000" forKey:@"CC Conn. Params Req UUID"];
     [self.d.setupData setValue:@"0xF000CCC3-0451-4000-B000-000000000000" forKey:@"CC Disconnect Req UUID"];
 #else
+    [self.d.setupData setValue:@"0xF0C0" forKey:@"OAD Service UUID"];
+    [self.d.setupData setValue:@"0xF0C1" forKey:@"OAD Image Notify UUID"];
+    [self.d.setupData setValue:@"0xF0C2" forKey:@"OAD Image Block Request UUID"];
+
     [self.d.setupData setValue:@"0xCCC0" forKey:@"CC Service UUID"];
     [self.d.setupData setValue:@"0xCCC1" forKey:@"CC Conn. Params UUID"];
     [self.d.setupData setValue:@"0xCCC2" forKey:@"CC Conn. Params Req UUID"];
@@ -124,7 +130,7 @@ typedef enum {
         case 0: {
             switch(buttonIndex) {
                 case 0: {
-                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",@"Blink644pShort.bin",@"Blink644pLong.bin", nil];
+                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",@"Blink644pShort.bin",@"Blink644pLong.bin",@"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin", nil];
                     selectInternalFirmwareSheet.tag = 1;
                     [selectInternalFirmwareSheet showInView:self.view];
                     break;
@@ -178,6 +184,22 @@ typedef enum {
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"Blink.cpp.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 4: {
+                    g_PartID = m328p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"MPU6050_DMP6.cpp.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 5: {
+                    g_PartID = m328p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"MPU6050_FLASH.bin"];
                     [self validateImage:path];
                     break;
                 }
@@ -471,12 +493,19 @@ typedef enum {
     
     _imageFileData = malloc(self.imageFile.length + OAD_BLOCK_SIZE);
     [self.imageFile getBytes:_imageFileData];
-    secondsPerBlock = 0.04375;
-    [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.01];
+    
+    double writeInterval = 0.018;
+    //secondsPerBlock = 0.04375;
+    //secondsPerBlock = 0.00625;
+    //secondsPerBlock = 0.0125;
+    //secondsPerBlock = 0.009375;
+    secondsPerBlock = writeInterval / OAD_BLOCK_SIZE;
+    //[self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.01];
+    gTimer = [NSTimer scheduledTimerWithTimeInterval:writeInterval target:self selector:@selector(uploadBinTickNotify:) userInfo:nil repeats:YES];
 }
 
 -(void) uploadBinTickNotify:(NSNumber*)blockNumber {
-    NSLog(@"%s, blockNum = %@", __func__, blockNumber);
+    //NSLog(@"%s, blockNum = %@", __func__, blockNumber);
     if (self.canceled) {
         self.canceled = FALSE;
         return;
@@ -485,8 +514,10 @@ typedef enum {
     uint8_t requestData[OAD_BLOCK_SIZE];
     memcpy(requestData, _imageFileData + self.iBytes, OAD_BLOCK_SIZE);
     if (self.iBytes < self.nBytes) {
+        //[self.d.p writeValue:[NSData dataWithBytes:requestData length:OAD_BLOCK_SIZE] forCharacteristic:self.d.cImageBlock type:CBCharacteristicWriteWithResponse];
         [self.d.p writeValue:[NSData dataWithBytes:requestData length:OAD_BLOCK_SIZE] forCharacteristic:self.d.cImageBlock type:CBCharacteristicWriteWithoutResponse];
     }
+    //[gTimer invalidate];
     self.iBytes += OAD_BLOCK_SIZE;
 #if 0
     if(self.iBlocks == self.nBlocks) {
@@ -500,6 +531,7 @@ typedef enum {
     }
 #else
     if (self.iBytes >= self.nBytes) {
+        [gTimer invalidate];
         if ([BLEUtility runningiOSSeven]) {
             [self.navCtrl popToRootViewControllerAnimated:YES];
         }
@@ -509,7 +541,7 @@ typedef enum {
         return;
     }
 #endif
-    if (self.iBytes % 8) {
+    if (self.iBytes % 76) {
         return;
     }
     //self.progressDialog.progressBar.progress = (float)((float)self.iBytes / (float)self.nBytes);
@@ -630,13 +662,14 @@ typedef enum {
     NSLog(@"Loaded firmware \"%@\"of size : %d",filename,self.imageFile.length);
     
     NSInteger size = self.imageFile.length;
+    //size = 96999;
     uint8_t requestData[5];
     requestData[0] = size & 0xff;
     requestData[1] = (size >> 8) & 0xff;
     requestData[2] = (size >> 16) & 0xff;
     requestData[3] = (size >> 24) & 0xff;
     requestData[4] = g_PartID;
-    [self.d.p writeValue:[NSData dataWithBytes:requestData length:sizeof(requestData)] forCharacteristic:self.d.cImageNotiy type:CBCharacteristicWriteWithResponse];
+    [self.d.p writeValue:[NSData dataWithBytes:requestData length:sizeof(requestData)] forCharacteristic:self.d.cImageNotiy type:CBCharacteristicWriteWithoutResponse];
     
     return YES;
 }
@@ -720,16 +753,18 @@ typedef enum {
 }
 
 -(void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    NSLog(@"%s,characteristic = %@, error = %@", __func__, characteristic, error);
+    //NSLog(@"%s,characteristic = %@, error = %@", __func__, characteristic, error);
 //    [self didUpdateValueForProfile:characteristic];
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Block Request UUID"]]]) {
         uint8 datas[characteristic.value.length];
         [characteristic.value getBytes:datas];
         uint16_t size = (datas[0]&0xff) | (uint16_t)(datas[1]<<8 & 0xff00);
-        NSLog(@"size = %d", size);
+        //NSLog(@"size = %d", size);
 
-        if (size != 0) {
-            [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:size]];
+        //if (size != 0)
+        {
+//            [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:size]];
+            NSLog(@"Had write %d bytes to CC2541.", size);
         }
     }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
@@ -740,6 +775,10 @@ typedef enum {
         NSLog(@"avSize = %d", avSize);
         if (avSize == 0) {
             UIAlertView *wrongImage = [[UIAlertView alloc]initWithTitle:@"Wrong Size!" message:@"The bin size is too big!" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+            [wrongImage show];
+        }
+        else if (avSize == 0xFFFFFFFF) {
+            UIAlertView *wrongImage = [[UIAlertView alloc]initWithTitle:@"Wrong Size!" message:@"CC2541 will reset to release some flash" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
             [wrongImage show];
         }
         else {
@@ -760,6 +799,6 @@ typedef enum {
 
 -(void) peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     NSLog(@"%s, characteristic = %@, error = %@", __func__, characteristic, error);
-    
+    //[self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:5]];
 }
 @end

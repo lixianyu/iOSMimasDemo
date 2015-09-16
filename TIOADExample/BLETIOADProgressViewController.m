@@ -65,7 +65,7 @@
 - (void)installBrightnessWindow {
     NSLog(@"%s", __func__);
     
-    [UIScreen mainScreen].brightness = 0.2;
+    [UIScreen mainScreen].brightness = 0.45;
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
