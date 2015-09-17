@@ -258,8 +258,9 @@
 }
 
 -(void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
-    NSLog(@"%s", __func__);
-    //[self.oadProfile deviceDisconnected:peripheral];
+    NSLog(@"%s, error = %@", __func__, error);
+    [self.oadProfile deviceDisconnected:peripheral];
+    [self hideWaiting];
 }
 
 #pragma mark - CBPeripheralDelegate Callbacks

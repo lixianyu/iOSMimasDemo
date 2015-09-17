@@ -747,7 +747,7 @@ typedef enum {
     NSLog(@"%s", __func__);
     NSLog(@"Service : %@", service.UUID);
     NSLog(@"Characteristic : %@", service.characteristics);
-    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"0xF000FFC0-0451-4000-B000-000000000000"]]) {
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"0xF0C0"]]) {
         [_idViewController performSelector:@selector(setButton2Title) withObject:nil afterDelay:0.1];
     }
 }
@@ -758,20 +758,22 @@ typedef enum {
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Block Request UUID"]]]) {
         uint8 datas[characteristic.value.length];
         [characteristic.value getBytes:datas];
-        uint16_t size = (datas[0]&0xff) | (uint16_t)(datas[1]<<8 & 0xff00);
+        NSUInteger wSize = ((NSUInteger)(datas[0]&0xff))|((NSUInteger)(datas[1]<<8 & 0xff00))|((NSUInteger)(datas[2]<<16 & 0xff0000))|((NSUInteger)(datas[3]<<24 & 0xff000000));
+
+        NSUInteger avSize = ((NSUInteger)(datas[4]&0xff))|((NSUInteger)(datas[5]<<8 & 0xff00))|((NSUInteger)(datas[6]<<16 & 0xff0000))|((NSUInteger)(datas[7]<<24 & 0xff000000));
         //NSLog(@"size = %d", size);
 
         //if (size != 0)
         {
 //            [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:size]];
-            NSLog(@"Had write %d bytes to CC2541.", size);
+            NSLog(@"Had write %d bytes to CC2541. The left flash is %d bytes", wSize, avSize);
         }
     }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
         //        NSLog(@"OAD Image notify : %@", characteristic.value);
         uint8 datas[characteristic.value.length];
         [characteristic.value getBytes:datas];
-        NSInteger avSize = ((NSInteger)(datas[0]&0xff))|((NSInteger)(datas[1]<<8 & 0xff00))|((NSInteger)(datas[2]<<16 & 0xff0000))|((NSInteger)(datas[3]<<24 & 0xff000000));
+        NSUInteger avSize = ((NSUInteger)(datas[0]&0xff))|((NSUInteger)(datas[1]<<8 & 0xff00))|((NSUInteger)(datas[2]<<16 & 0xff0000))|((NSUInteger)(datas[3]<<24 & 0xff000000));
         NSLog(@"avSize = %d", avSize);
         if (avSize == 0) {
             UIAlertView *wrongImage = [[UIAlertView alloc]initWithTitle:@"Wrong Size!" message:@"The bin size is too big!" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
