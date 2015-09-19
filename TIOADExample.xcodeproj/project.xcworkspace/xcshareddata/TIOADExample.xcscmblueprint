@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "F32C37F6C576D9BBB0F611FCE8D3FC2780771190",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "F32C37F6C576D9BBB0F611FCE8D3FC2780771190" : 0,
+    "8202DF01C32FDD8E256ED309D51BF27C35B61B0C" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C989E713-A78B-4F19-B44F-A6DDEB37187C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "F32C37F6C576D9BBB0F611FCE8D3FC2780771190" : "elaraiphone",
+    "8202DF01C32FDD8E256ED309D51BF27C35B61B0C" : "Over%20the%20Air%20Download%20%20Example%20Source%20Code%201.1.0"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TIOADExample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TIOADExample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/lixianyu\/tioadexample.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8202DF01C32FDD8E256ED309D51BF27C35B61B0C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/lixianyu\/elaraiphone.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F32C37F6C576D9BBB0F611FCE8D3FC2780771190"
+    }
+  ]
+}

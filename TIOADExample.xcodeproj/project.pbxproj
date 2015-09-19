@@ -49,6 +49,8 @@
 		EEDF5B7D1941AEA80052B875 /* MTLogPluginSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B771941AEA80052B875 /* MTLogPluginSearch.m */; };
 		EEDF5B821941AEB30052B875 /* MTLog.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B7F1941AEB30052B875 /* MTLog.m */; };
 		EEDF5B831941AEB30052B875 /* MTLogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B811941AEB30052B875 /* MTLogPlugin.m */; };
+		EEFC87C41BAC38B00036FCE3 /* 644p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87C61BAC38BB0036FCE3 /* 644p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +118,8 @@
 		EEDF5B7F1941AEB30052B875 /* MTLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLog.m; sourceTree = "<group>"; };
 		EEDF5B801941AEB30052B875 /* MTLogPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPlugin.h; sourceTree = "<group>"; };
 		EEDF5B811941AEB30052B875 /* MTLogPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLogPlugin.m; sourceTree = "<group>"; };
+		EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 644p_64K_Short.bin; sourceTree = "<group>"; };
+		EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 644p_64K_Long.bin; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,8 @@
 		7F6A781B169B2F2700DF5A5C /* Integrated Firmware Files */ = {
 			isa = PBXGroup;
 			children = (
+				EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */,
+				EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */,
 				EE2A0FE51BA980CD00F064B2 /* MPU6050_FLASH.bin */,
 				EE2A0FE31BA937B500F064B2 /* MPU6050_DMP6.cpp.bin */,
 				EE2A0FE11BA80C2B00F064B2 /* Blink.short.bin */,
@@ -353,6 +359,7 @@
 				7F38C312169AEFF000E239F9 /* InfoPlist.strings in Resources */,
 				7F38C31A169AEFF000E239F9 /* Default.png in Resources */,
 				EE2A0FE21BA80C2B00F064B2 /* Blink.short.bin in Resources */,
+				EEFC87C61BAC38BB0036FCE3 /* 644p_64K_Long.bin in Resources */,
 				EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */,
 				EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */,
 				EE2A0FE41BA937B500F064B2 /* MPU6050_DMP6.cpp.bin in Resources */,
@@ -370,6 +377,7 @@
 				7F91235B16D3A23D00549155 /* icon_72.png in Resources */,
 				7F91235D16D3A24100549155 /* icon@2x_144.png in Resources */,
 				7FAF805516D3DD930007FB32 /* icon_57.png in Resources */,
+				EEFC87C41BAC38B00036FCE3 /* 644p_64K_Short.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,7 +500,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TIOADExample/TIOADExample-Prefix.pch";
 				INFOPLIST_FILE = "TIOADExample/TIOADExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bba5c7b0-fbc2-4061-92de-a150e3e15dbb";
 				WRAPPER_EXTENSION = app;
@@ -506,7 +514,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TIOADExample/TIOADExample-Prefix.pch";
 				INFOPLIST_FILE = "TIOADExample/TIOADExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bba5c7b0-fbc2-4061-92de-a150e3e15dbb";
 				WRAPPER_EXTENSION = app;

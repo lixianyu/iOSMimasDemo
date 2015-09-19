@@ -130,7 +130,7 @@ typedef enum {
         case 0: {
             switch(buttonIndex) {
                 case 0: {
-                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",@"Blink644pShort.bin",@"Blink644pLong.bin",@"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin", nil];
+                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",@"Blink644pShort.bin",@"Blink644pLong.bin",@"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin",@"644p_64K_Long.bin",@"644p_64K_Short", nil];
                     selectInternalFirmwareSheet.tag = 1;
                     [selectInternalFirmwareSheet showInView:self.view];
                     break;
@@ -200,6 +200,22 @@ typedef enum {
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"MPU6050_FLASH.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 6: {
+                    g_PartID = m644p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"644p_64K_Long.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 7: {
+                    g_PartID = m644p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"644p_64K_Short.bin"];
                     [self validateImage:path];
                     break;
                 }
@@ -492,7 +508,7 @@ typedef enum {
     NSLog(@"iBytes = %d, nBytes = %d", self.iBytes, self.nBytes);
     
     _imageFileData = malloc(self.imageFile.length + OAD_BLOCK_SIZE);
-    [self.imageFile getBytes:_imageFileData];
+    [self.imageFile getBytes:_imageFileData length:self.imageFile.length];
     
     double writeInterval = 0.018;
     //secondsPerBlock = 0.04375;
@@ -757,7 +773,7 @@ typedef enum {
 //    [self didUpdateValueForProfile:characteristic];
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Block Request UUID"]]]) {
         uint8 datas[characteristic.value.length];
-        [characteristic.value getBytes:datas];
+        [characteristic.value getBytes:datas length:characteristic.value.length];
         NSUInteger wSize = ((NSUInteger)(datas[0]&0xff))|((NSUInteger)(datas[1]<<8 & 0xff00))|((NSUInteger)(datas[2]<<16 & 0xff0000))|((NSUInteger)(datas[3]<<24 & 0xff000000));
 
         NSUInteger avSize = ((NSUInteger)(datas[4]&0xff))|((NSUInteger)(datas[5]<<8 & 0xff00))|((NSUInteger)(datas[6]<<16 & 0xff0000))|((NSUInteger)(datas[7]<<24 & 0xff000000));
@@ -772,7 +788,7 @@ typedef enum {
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
         //        NSLog(@"OAD Image notify : %@", characteristic.value);
         uint8 datas[characteristic.value.length];
-        [characteristic.value getBytes:datas];
+        [characteristic.value getBytes:datas length:characteristic.value.length];
         NSUInteger avSize = ((NSUInteger)(datas[0]&0xff))|((NSUInteger)(datas[1]<<8 & 0xff00))|((NSUInteger)(datas[2]<<16 & 0xff0000))|((NSUInteger)(datas[3]<<24 & 0xff000000));
         NSLog(@"avSize = %d", avSize);
         if (avSize == 0) {
@@ -789,12 +805,12 @@ typedef enum {
     }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"2A25"]]) {
         unsigned char data[characteristic.value.length+1];
-        [characteristic.value getBytes:&data];
+        [characteristic.value getBytes:&data length:characteristic.value.length + 1];
         data[characteristic.value.length] = 0;
         for (int i = 0; i < characteristic.value.length; i++) {
             NSLog(@"0x%02X", data[i]);
         }
-        NSString *serialNumber = [NSString stringWithUTF8String:data];
+        NSString *serialNumber = [NSString stringWithUTF8String:(const char*)data];
         NSLog(@"serialNumber = %@", serialNumber);
     }
 }
