@@ -29,6 +29,8 @@ typedef enum {
     double secondsPerBlock;
     float secondsLeft;
     NSTimer *gTimer;
+    int8_t iCheckTimes;
+    BOOL bUpgradeSuccess;
 }
 
 -(id) initWithDevice:(BLEDevice *) dev {
@@ -550,6 +552,10 @@ typedef enum {
     secondsPerBlock = writeInterval / OAD_BLOCK_SIZE;
     //[self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.01];
     gTimer = [NSTimer scheduledTimerWithTimeInterval:writeInterval target:self selector:@selector(uploadBinTickNotify:) userInfo:nil repeats:YES];
+    
+    iCheckTimes = 4;
+    bUpgradeSuccess = NO;
+    
 }
 
 -(void) uploadBinTickNotify:(NSNumber*)blockNumber {
@@ -580,12 +586,7 @@ typedef enum {
 #else
     if (self.iBytes >= self.nBytes) {
         [gTimer invalidate];
-        if ([BLEUtility runningiOSSeven]) {
-            [self.navCtrl popToRootViewControllerAnimated:YES];
-        }
-        else [self.progressDialog dismissWithClickedButtonIndex:0 animated:YES];
-        self.inProgramming = NO;
-        [self completionDialog];
+        [self performSelector:@selector(updateTimeOut) withObject:nil afterDelay:1.0];
         return;
     }
 #endif
@@ -610,6 +611,7 @@ typedef enum {
     }
     
     //    NSLog(@".");
+#if 0
     if (self.start) {
         self.start = NO;
         if ([BLEUtility runningiOSSeven]) {
@@ -621,8 +623,41 @@ typedef enum {
             [self.progressDialog show];
         }
     }
+#endif
 }
 
+-(void) resetCC2541 {
+    NSLog(@"%s", __func__);
+    uint8_t requestData[4] = {0x61, 0x79, 0xB3, 0xAF};
+    [self.d.p writeValue:[NSData dataWithBytes:requestData length:sizeof(requestData)] forCharacteristic:self.d.cErrorReset type:CBCharacteristicWriteWithoutResponse];
+}
+-(void) updateTimeOut {
+    NSLog(@"%s", __func__);
+    
+    if (bUpgradeSuccess == YES) {
+        if ([BLEUtility runningiOSSeven]) {
+            [self.navCtrl popToRootViewControllerAnimated:YES];
+        }
+        else [self.progressDialog dismissWithClickedButtonIndex:0 animated:YES];
+        self.inProgramming = NO;
+        [self completionDialog];
+    }
+    else {
+        iCheckTimes--;
+        if (iCheckTimes <= 0) {
+            if ([BLEUtility runningiOSSeven]) {
+                [self.navCtrl popToRootViewControllerAnimated:YES];
+            }
+            else [self.progressDialog dismissWithClickedButtonIndex:0 animated:YES];
+            self.inProgramming = NO;
+            [self completionDialogFail];
+            [self resetCC2541];
+        }
+        else {
+            [self performSelector:@selector(updateTimeOut) withObject:nil afterDelay:1.0];
+        }
+    }
+}
 -(void) didUpdateValueForProfile:(CBCharacteristic *)characteristic {
     NSLog(@"%s", __func__);
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
@@ -706,6 +741,7 @@ typedef enum {
 #else
 -(BOOL)validateImage:(NSString *)filename {
     NSLog(@"%s", __func__);
+    [self.navCtrl pushViewController:self.progressView animated:YES];
     self.imageFile = [NSData dataWithContentsOfFile:filename];
     NSLog(@"Loaded firmware \"%@\"of size : %d",filename,self.imageFile.length);
     
@@ -754,6 +790,14 @@ typedef enum {
     NSLog(@"%s", __func__);
     UIAlertView *complete;
         complete = [[UIAlertView alloc]initWithTitle:@"Firmware upgrade complete" message:@"Firmware upgrade was successfully completed, device needs to be reconnected" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [complete show];
+    [UIScreen mainScreen].brightness = 0.8;
+}
+
+-(void) completionDialogFail {
+    NSLog(@"%s", __func__);
+    UIAlertView *complete;
+    complete = [[UIAlertView alloc]initWithTitle:@"Firmware upgrade fail" message:@"请把手机和CC2541靠近，再重试。CC2541将重启" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [complete show];
     [UIScreen mainScreen].brightness = 0.8;
 }
@@ -816,6 +860,7 @@ typedef enum {
 //            [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:size]];
             NSLog(@"Had write %d bytes to CC2541. The left flash is %d bytes", wSize, avSize);
         }
+        bUpgradeSuccess = YES;
     }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
         //        NSLog(@"OAD Image notify : %@", characteristic.value);
@@ -824,10 +869,20 @@ typedef enum {
         NSUInteger avSize = ((NSUInteger)(datas[0]&0xff))|((NSUInteger)(datas[1]<<8 & 0xff00))|((NSUInteger)(datas[2]<<16 & 0xff0000))|((NSUInteger)(datas[3]<<24 & 0xff000000));
         NSLog(@"avSize = %d", avSize);
         if (avSize == 0) {
+            if ([BLEUtility runningiOSSeven]) {
+                [self.navCtrl popToRootViewControllerAnimated:YES];
+            }
+            else [self.progressDialog dismissWithClickedButtonIndex:0 animated:YES];
+            self.inProgramming = NO;
             UIAlertView *wrongImage = [[UIAlertView alloc]initWithTitle:@"Wrong Size!" message:@"The bin size is too big!" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
             [wrongImage show];
         }
         else if (avSize == 0xFFFFFFFF) {
+            if ([BLEUtility runningiOSSeven]) {
+                [self.navCtrl popToRootViewControllerAnimated:YES];
+            }
+            else [self.progressDialog dismissWithClickedButtonIndex:0 animated:YES];
+            self.inProgramming = NO;
             UIAlertView *wrongImage = [[UIAlertView alloc]initWithTitle:@"Wrong Size!" message:@"CC2541 will reset to release some flash" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
             [wrongImage show];
         }

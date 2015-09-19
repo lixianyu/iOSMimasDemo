@@ -190,6 +190,7 @@
     _bleDevice.manager = self.manager;
     _bleDevice.cImageNotiy = self.cImageNotiy;
     _bleDevice.cImageBlock = self.cImageBlock;
+    _bleDevice.cErrorReset = self.cErrorReset;
     
     self.oadProfile = [[BLETIOADProfile alloc] initWithDevice:_bleDevice];
     self.oadProfile.progressView = [[BLETIOADProgressViewController alloc] init];
@@ -301,7 +302,9 @@
             //else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C2-0451-4000-B000-000000000000"]]) {
             else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C2"]]) {
                 _cImageBlock = characteristic;
-                
+            }
+            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C3"]]) {
+                _cErrorReset = characteristic;
                 [self initBLEDevice];
                 [self hideWaiting];
             }

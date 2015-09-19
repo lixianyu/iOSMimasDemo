@@ -26,6 +26,7 @@
 @property (strong,nonatomic) CBPeripheral *p;
 @property (strong,nonatomic) CBCharacteristic *cImageNotiy;
 @property (strong,nonatomic) CBCharacteristic *cImageBlock;
+@property (strong,nonatomic) CBCharacteristic *cErrorReset;
 #ifdef PHOBOS_SHENG_CHAN
 @property (strong, nonatomic) ShengChanViewControllerTableViewController *dSVC;
 #else

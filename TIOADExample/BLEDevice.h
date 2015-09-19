@@ -20,6 +20,7 @@
 @property (strong,nonatomic) CBCentralManager *manager;
 @property (strong,nonatomic) CBCharacteristic *cImageNotiy;
 @property (strong,nonatomic) CBCharacteristic *cImageBlock;
+@property (strong,nonatomic) CBCharacteristic *cErrorReset;
 /// Pointer to dictionary with device setup data
 @property NSMutableDictionary *setupData;
 @end
