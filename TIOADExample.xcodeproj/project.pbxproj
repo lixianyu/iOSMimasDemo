@@ -51,6 +51,10 @@
 		EEDF5B831941AEB30052B875 /* MTLogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B811941AEB30052B875 /* MTLogPlugin.m */; };
 		EEFC87C41BAC38B00036FCE3 /* 644p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */; settings = {ASSET_TAGS = (); }; };
 		EEFC87C61BAC38BB0036FCE3 /* 644p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87C81BAD13120036FCE3 /* 1284p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C71BAD13120036FCE3 /* 1284p_64K_Long.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87CA1BAD131D0036FCE3 /* 1284p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87CC1BAD13240036FCE3 /* 1284p_90K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87CE1BAD132D0036FCE3 /* 1284p_90K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +124,10 @@
 		EEDF5B811941AEB30052B875 /* MTLogPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLogPlugin.m; sourceTree = "<group>"; };
 		EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 644p_64K_Short.bin; sourceTree = "<group>"; };
 		EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 644p_64K_Long.bin; sourceTree = "<group>"; };
+		EEFC87C71BAD13120036FCE3 /* 1284p_64K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_64K_Long.bin; sourceTree = "<group>"; };
+		EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_64K_Short.bin; sourceTree = "<group>"; };
+		EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_90K_Long.bin; sourceTree = "<group>"; };
+		EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_90K_Short.bin; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +210,10 @@
 		7F6A781B169B2F2700DF5A5C /* Integrated Firmware Files */ = {
 			isa = PBXGroup;
 			children = (
+				EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */,
+				EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */,
+				EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */,
+				EEFC87C71BAD13120036FCE3 /* 1284p_64K_Long.bin */,
 				EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */,
 				EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */,
 				EE2A0FE51BA980CD00F064B2 /* MPU6050_FLASH.bin */,
@@ -365,13 +377,17 @@
 				EE2A0FE41BA937B500F064B2 /* MPU6050_DMP6.cpp.bin in Resources */,
 				EE2A0FE61BA980CD00F064B2 /* MPU6050_FLASH.bin in Resources */,
 				7F38C31C169AEFF000E239F9 /* Default@2x.png in Resources */,
+				EEFC87CE1BAD132D0036FCE3 /* 1284p_90K_Short.bin in Resources */,
 				7F38C31E169AEFF000E239F9 /* Default-568h@2x.png in Resources */,
 				7F38C321169AEFF000E239F9 /* MainStoryboard_iPhone.storyboard in Resources */,
 				7F38C324169AEFF000E239F9 /* MainStoryboard_iPad.storyboard in Resources */,
+				EEFC87CA1BAD131D0036FCE3 /* 1284p_64K_Short.bin in Resources */,
 				7F91234A16D3A19000549155 /* icon@2x_144.png in Resources */,
 				7F91234B16D3A19000549155 /* icon_72.png in Resources */,
 				EE2A0FE01BA7CADB00F064B2 /* Blink.cpp.bin in Resources */,
+				EEFC87C81BAD13120036FCE3 /* 1284p_64K_Long.bin in Resources */,
 				EE0D5C341B2FCB6D00DDD88D /* Images.xcassets in Resources */,
+				EEFC87CC1BAD13240036FCE3 /* 1284p_90K_Long.bin in Resources */,
 				7F91235316D3A1F700549155 /* icon_57@2x_114.png in Resources */,
 				7F91235916D3A23300549155 /* icon_57@2x_114.png in Resources */,
 				7F91235B16D3A23D00549155 /* icon_72.png in Resources */,
