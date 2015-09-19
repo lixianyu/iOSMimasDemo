@@ -55,6 +55,8 @@
 		EEFC87CA1BAD131D0036FCE3 /* 1284p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */; settings = {ASSET_TAGS = (); }; };
 		EEFC87CC1BAD13240036FCE3 /* 1284p_90K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */; settings = {ASSET_TAGS = (); }; };
 		EEFC87CE1BAD132D0036FCE3 /* 1284p_90K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87D01BAD46680036FCE3 /* 1284p_13K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CF1BAD46680036FCE3 /* 1284p_13K_Long.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87D21BAD46740036FCE3 /* 1284p_13K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87D11BAD46740036FCE3 /* 1284p_13K_Short.bin */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -128,6 +130,8 @@
 		EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_64K_Short.bin; sourceTree = "<group>"; };
 		EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_90K_Long.bin; sourceTree = "<group>"; };
 		EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_90K_Short.bin; sourceTree = "<group>"; };
+		EEFC87CF1BAD46680036FCE3 /* 1284p_13K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_13K_Long.bin; sourceTree = "<group>"; };
+		EEFC87D11BAD46740036FCE3 /* 1284p_13K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_13K_Short.bin; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +214,8 @@
 		7F6A781B169B2F2700DF5A5C /* Integrated Firmware Files */ = {
 			isa = PBXGroup;
 			children = (
+				EEFC87D11BAD46740036FCE3 /* 1284p_13K_Short.bin */,
+				EEFC87CF1BAD46680036FCE3 /* 1284p_13K_Long.bin */,
 				EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */,
 				EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */,
 				EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */,
@@ -375,6 +381,7 @@
 				EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */,
 				EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */,
 				EE2A0FE41BA937B500F064B2 /* MPU6050_DMP6.cpp.bin in Resources */,
+				EEFC87D01BAD46680036FCE3 /* 1284p_13K_Long.bin in Resources */,
 				EE2A0FE61BA980CD00F064B2 /* MPU6050_FLASH.bin in Resources */,
 				7F38C31C169AEFF000E239F9 /* Default@2x.png in Resources */,
 				EEFC87CE1BAD132D0036FCE3 /* 1284p_90K_Short.bin in Resources */,
@@ -393,6 +400,7 @@
 				7F91235B16D3A23D00549155 /* icon_72.png in Resources */,
 				7F91235D16D3A24100549155 /* icon@2x_144.png in Resources */,
 				7FAF805516D3DD930007FB32 /* icon_57.png in Resources */,
+				EEFC87D21BAD46740036FCE3 /* 1284p_13K_Short.bin in Resources */,
 				EEFC87C41BAC38B00036FCE3 /* 644p_64K_Short.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
