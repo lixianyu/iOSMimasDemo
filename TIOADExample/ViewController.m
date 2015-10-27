@@ -200,6 +200,11 @@
     self.oadProfile.view = self.view;
 }
 
+-(void)reconnectPeripheral {
+    NSLog(@"%s", __func__);
+    [self.manager connectPeripheral:self.dSVC.p options:NULL];
+}
+
 #pragma mark - deviceSelectorDelegate Callbacks
 -(void)didSelectPeripheral:(NSString *)name {
 //-(void)didSelectDevice:(CBCharacteristic*)imageNotiy imageBlock:(CBCharacteristic *)imageBlock {
@@ -211,7 +216,7 @@
 //    if (!self.dSVC.p.isConnected) [self.manager connectPeripheral:self.dSVC.p options:nil];
     if (self.dSVC.p.state == CBPeripheralStateDisconnected) {
         NSDictionary *optionsdict = @{CBConnectPeripheralOptionNotifyOnConnectionKey : [NSNumber numberWithBool:YES]};
-        [self.manager connectPeripheral:self.dSVC.p options:optionsdict];
+        [self.manager connectPeripheral:self.dSVC.p options:NULL];
         self.button1.enabled = NO;
         self.button2.enabled = NO;
         [self showWaiting:self.view];
@@ -262,6 +267,7 @@
     NSLog(@"%s, error = %@", __func__, error);
     [self.oadProfile deviceDisconnected:peripheral];
     [self hideWaiting];
+    //[self performSelector:@selector(reconnectPeripheral) withObject:nil afterDelay:1];
 }
 
 #pragma mark - CBPeripheralDelegate Callbacks

@@ -7,7 +7,7 @@
  */
  
 #import "deviceSelectorViewController.h"
-
+#define NSLog( s, ...)
 @interface deviceSelectorViewController ()
 @property (strong,nonatomic) UIWindow *bWindow;
 

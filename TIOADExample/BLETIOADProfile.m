@@ -31,6 +31,8 @@ typedef enum {
     NSTimer *gTimer;
     int8_t iCheckTimes;
     BOOL bUpgradeSuccess;
+    NSUInteger avSizeLeft;
+    UIAlertView *completeOK;
 }
 
 -(id) initWithDevice:(BLEDevice *) dev {
@@ -132,7 +134,9 @@ typedef enum {
         case 0: {
             switch(buttonIndex) {
                 case 0: {
-                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",@"Blink644pShort.bin",@"Blink644pLong.bin",@"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin",@"644p_64K_Long.bin",@"644p_64K_Short",@"1284p_64K_Long",@"1284p_64K_Short",@"1284p_90K_Long",@"1284p_90K_Short",@"1284p_13K_Long", @"1284p_13K_Short", nil];
+                    UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",
+                                                                  @"Blink644pShort.bin",@"Blink644pLong.bin",
+                                                                  @"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin",@"644p_64K_Long.bin",@"644p_64K_Short",@"1284p_64K_Long",@"1284p_64K_Short",@"1284p_90K_Long",@"1284p_90K_Short",@"1284p_13K_Long", @"1284p_13K_Short", @"1284p_127K_Long", @"1284p_127K_Short", nil];
                     selectInternalFirmwareSheet.tag = 1;
                     [selectInternalFirmwareSheet showInView:self.view];
                     break;
@@ -269,6 +273,22 @@ typedef enum {
                     [self validateImage:path];
                     break;
                 }
+                case 14: {
+                    g_PartID = m1284p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"1284p_127K_long.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 15: {
+                    g_PartID = m1284p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"1284p_127K_short.bin"];
+                    [self validateImage:path];
+                    break;
+                }
                 default:
                     break;
             }
@@ -278,6 +298,19 @@ typedef enum {
             if (buttonIndex == actionSheet.numberOfButtons - 1) break;
             NSMutableArray *files = [self findFWFiles];
             NSString *fileName = [files objectAtIndex:buttonIndex];
+            NSLog(@"fileName = %@", fileName);
+            NSString * lastPC =[fileName lastPathComponent];
+            NSLog(@"lastPC = %@", lastPC);
+            if ([lastPC hasPrefix:@"1284p"]) {
+                g_PartID = m1284p;
+            }
+            else if ([lastPC hasPrefix:@"644p"])
+            {
+                g_PartID = m644p;
+            }
+            else if ([lastPC hasPrefix:@"328p"]) {
+                g_PartID = m328p;
+            }
             [self validateImage:fileName];
             break;
         }
@@ -560,7 +593,7 @@ typedef enum {
     _imageFileData = malloc(self.imageFile.length + OAD_BLOCK_SIZE);
     [self.imageFile getBytes:_imageFileData length:self.imageFile.length];
     
-    double writeInterval = 0.018;
+    double writeInterval = 0.019;
     //secondsPerBlock = 0.04375;
     //secondsPerBlock = 0.00625;
     //secondsPerBlock = 0.0125;
@@ -802,11 +835,17 @@ typedef enum {
     [self.d.p writeValue:[NSData dataWithBytes:&data length:1] forCharacteristic:self.d.cImageNotiy type:CBCharacteristicWriteWithResponse];
 }
 
+-(void) completionDialogOK {
+    [completeOK dismissWithClickedButtonIndex:0 animated:YES];
+    
+}
 -(void) completionDialog {
     NSLog(@"%s", __func__);
-    UIAlertView *complete;
-        complete = [[UIAlertView alloc]initWithTitle:@"Firmware upgrade complete" message:@"Firmware upgrade was successfully completed, device needs to be reconnected" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [complete show];
+//    UIAlertView *complete;
+    NSString * avs = [NSString stringWithFormat:@"Firmware upgrade was successfully completed, device needs to be reconnected.The left flash size is %ld(0x%08X)", (unsigned long)avSizeLeft, avSizeLeft];
+    completeOK = [[UIAlertView alloc]initWithTitle:@"Firmware upgrade complete" message:avs delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [completeOK show];
+    [self performSelector:@selector(completionDialogOK) withObject:nil afterDelay:60.5];
     [UIScreen mainScreen].brightness = 0.8;
 }
 
@@ -874,8 +913,9 @@ typedef enum {
         //if (size != 0)
         {
 //            [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:size]];
-            NSLog(@"Had write %d bytes to CC2541. The left flash is %d bytes", wSize, avSize);
+            NSLog(@"Had write %d(0x%08X) bytes to CC2541. The left flash is %d(0x%08X) bytes", wSize, wSize, avSize, avSize);
         }
+        avSizeLeft = avSize;
         bUpgradeSuccess = YES;
     }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Notify UUID"]]]) {
@@ -883,7 +923,7 @@ typedef enum {
         uint8 datas[characteristic.value.length];
         [characteristic.value getBytes:datas length:characteristic.value.length];
         NSUInteger avSize = ((NSUInteger)(datas[0]&0xff))|((NSUInteger)(datas[1]<<8 & 0xff00))|((NSUInteger)(datas[2]<<16 & 0xff0000))|((NSUInteger)(datas[3]<<24 & 0xff000000));
-        NSLog(@"avSize = %d", avSize);
+        NSLog(@"avSize = %d(0x%08X)", avSize, avSize);
         if (avSize == 0) {
             if ([BLEUtility runningiOSSeven]) {
                 [self.navCtrl popToRootViewControllerAnimated:YES];
