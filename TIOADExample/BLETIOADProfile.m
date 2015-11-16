@@ -1000,7 +1000,7 @@ typedef enum {
 -(void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     NSLog(@"%s, error = %@", __func__, error);
     [self deviceDisconnected:peripheral];
-    [_idViewController performSelector:@selector(disConnectFromUS) withObject:nil afterDelay:3.598];
+//    [_idViewController performSelector:@selector(disConnectFromUS) withObject:nil afterDelay:3.598];
 }
 
 #pragma mark - CBPeripheralDelegate Callbacks
