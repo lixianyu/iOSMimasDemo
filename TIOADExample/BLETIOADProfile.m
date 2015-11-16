@@ -6,7 +6,7 @@
  Copyright (c) 2013 Texas Instruments. All rights reserved.
 
  */
-
+#import <mach/mach_time.h>
 #import "BLETIOADProfile.h"
 #import "BLETIOADProgressDialog.h"
 #import "BLEUtility.h"
@@ -33,6 +33,12 @@ typedef enum {
     BOOL bUpgradeSuccess;
     NSUInteger avSizeLeft;
     UIAlertView *completeOK;
+    double writeInterval;
+    uint64_t time1;
+    uint64_t time2;
+    uint64_t elapsed;
+    uint8_t times;
+    uint64_t msAll;
 }
 
 -(id) initWithDevice:(BLEDevice *) dev {
@@ -96,10 +102,20 @@ typedef enum {
 -(void) configureProfile {
     NSLog(@"%s", __func__);
     [self.d.p setNotifyValue:YES forCharacteristic:self.d.cImageNotiy];
+    //[self.d.p setNotifyValue:YES forCharacteristic:self.d.cTransport];
     self.start = YES;
 
+    //[self performSelector:@selector(testTransport) withObject:nil afterDelay:2.01];
 }
 #endif
+
+-(void)testTransport {
+    NSLog(@"%s", __func__);
+    //NSString *nihao = [NSString stringWithUTF8String:"nishi shuiya?"];
+    char requestData[128];
+    strcpy(requestData, "Bitbucket:9=IMngF09kBitbucket:9=IMngF0\r\n");
+    [self.d.p writeValue:[NSData dataWithBytes:requestData length:strlen(requestData)] forCharacteristic:self.d.cTransport type:CBCharacteristicWriteWithoutResponse];
+}
 - (void) checkTest {
     NSLog(@"%s, cImageBlock = %@", __func__, self.d.cImageBlock);
 }
@@ -136,7 +152,7 @@ typedef enum {
                 case 0: {
                     UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",
                                                                   @"Blink644pShort.bin",@"Blink644pLong.bin",
-                                                                  @"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin",@"644p_64K_Long.bin",@"644p_64K_Short",@"1284p_64K_Long",@"1284p_64K_Short",@"1284p_90K_Long",@"1284p_90K_Short",@"1284p_13K_Long", @"1284p_13K_Short", @"1284p_127K_Long", @"1284p_127K_Short", nil];
+                                                                  @"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin",@"644p_64K_Long.bin",@"644p_64K_Short",@"1284p_64K_Long",@"1284p_64K_Short",@"1284p_90K_Long",@"1284p_90K_Short",@"1284p_13K_Long", @"1284p_13K_Short", @"1284p_127K_Long", @"1284p_127K_Short",@"1284p_5K_Long",@"1284p_5K_Short", nil];
                     selectInternalFirmwareSheet.tag = 1;
                     [selectInternalFirmwareSheet showInView:self.view];
                     break;
@@ -289,6 +305,22 @@ typedef enum {
                     [self validateImage:path];
                     break;
                 }
+                case 16: {
+                    g_PartID = m1284p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"1284p_5K_Long.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 17: {
+                    g_PartID = m1284p;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"1284p_5K_Short.bin"];
+                    [self validateImage:path];
+                    break;
+                }
                 default:
                     break;
             }
@@ -317,6 +349,51 @@ typedef enum {
         default:
         break;
     }
+}
+
+-(void)forAutoTest: (id)sender {
+    static uint8_t u8whichOne = 0;
+    _idViewController = sender;
+    g_PartID = m1284p;
+#if 0
+    char fileNameCharsLong[] = "/var/mobile/Containers/Bundle/Application/2A5B3E5E-A401-4E66-BD83-B9FE5D811737/TIOADExample.app/1284p_13K_Long.bin";
+    char fileNameCharsShort[] = "/var/mobile/Containers/Bundle/Application/C5A2BCB3-5874-4A9D-ACCF-3628695C5046/TIOADExample.app/1284p_13K_Short.bin";
+    NSString *fileNameLong =  [NSString stringWithCString:fileNameCharsLong encoding:NSASCIIStringEncoding];
+    NSString *fileNameShort =  [NSString stringWithCString:fileNameCharsShort encoding:NSASCIIStringEncoding];
+    NSLog(@"fileNameCharsLong = %@", fileNameLong);
+    NSLog(@"fileNameCharsShort = %@", fileNameShort);
+#endif
+#if 0
+    if (u8whichOne == 0) {
+        NSMutableString *pathLong = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+        [pathLong appendString:@"/"] ;
+        [pathLong appendString:@"1284p_5K_Long.bin"];
+        [self validateImage:pathLong];
+        u8whichOne = 1;
+    }
+    else {
+        NSMutableString *pathShort = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+        [pathShort appendString:@"/"] ;
+        [pathShort appendString:@"1284p_5K_Short.bin"];
+        [self validateImage:pathShort];
+        u8whichOne = 0;
+    }
+#else
+    if (u8whichOne == 0) {
+        NSMutableString *pathLong = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+        [pathLong appendString:@"/"] ;
+        [pathLong appendString:@"1284p_13K_Long.bin"];
+        [self validateImage:pathLong];
+        u8whichOne = 1;
+    }
+    else {
+        NSMutableString *pathShort = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+        [pathShort appendString:@"/"] ;
+        [pathShort appendString:@"1284p_13K_Short.bin"];
+        [self validateImage:pathShort];
+        u8whichOne = 0;
+    }
+#endif
 }
 
 -(void) uploadImage:(NSString *)filename {
@@ -592,35 +669,75 @@ typedef enum {
     
     _imageFileData = malloc(self.imageFile.length + OAD_BLOCK_SIZE);
     [self.imageFile getBytes:_imageFileData length:self.imageFile.length];
-    
-    double writeInterval = 0.019;
+    memset(_imageFileData+self.imageFile.length, 0xFF, OAD_BLOCK_SIZE);
+#ifdef WRITE_WITH_RESPONSE
+    msAll = 0;
+    times = 0;
+    time1 = mach_absolute_time();
+    writeInterval = 0.050;
+#else
+    writeInterval = 0.009;
+#endif
     //secondsPerBlock = 0.04375;
     //secondsPerBlock = 0.00625;
     //secondsPerBlock = 0.0125;
     //secondsPerBlock = 0.009375;
     secondsPerBlock = writeInterval / OAD_BLOCK_SIZE;
-    //[self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.01];
-    gTimer = [NSTimer scheduledTimerWithTimeInterval:writeInterval target:self selector:@selector(uploadBinTickNotify:) userInfo:nil repeats:YES];
-    
-    iCheckTimes = 4;
+    //[self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.051];
+#ifdef WRITE_WITH_RESPONSE
+    [self performSelector:@selector(uploadBinTickNotify) withObject:nil afterDelay:0.051];
+#else
+    gTimer = [NSTimer scheduledTimerWithTimeInterval:writeInterval target:self selector:@selector(uploadBinTickNotify) userInfo:nil repeats:YES];
+#endif
+    iCheckTimes = 5;
     bUpgradeSuccess = NO;
-    
 }
 
--(void) uploadBinTickNotify:(NSNumber*)blockNumber {
+//-(void) uploadBinTickNotify:(NSNumber*)blockNumber {
+-(void) uploadBinTickNotify {
     //NSLog(@"%s, blockNum = %@", __func__, blockNumber);
     if (self.canceled) {
         self.canceled = FALSE;
         return;
     }
+#ifdef WRITE_WITH_RESPONSE
+    if (times < 5) {
+        time2 = mach_absolute_time();
+        elapsed = time2 - time1;
+        time1 = time2;
+        mach_timebase_info_data_t info;
+        if (mach_timebase_info(&info) != KERN_SUCCESS) {
+            NSLog(@"mach_timebase_info failed");
+        }
+        uint64_t nanosecs = elapsed * info.numer / info.denom;
+        msAll += (nanosecs / 1000000);
+        times++;
+    }
+    else if (times == 5) {
+        secondsPerBlock = (msAll / (double)times / 1000) / (double)OAD_BLOCK_SIZE;
+        NSLog(@"secondsPerBlock = %f, msAll = %llu, times = %d", secondsPerBlock, msAll, times);
+        times++;
+    }
+#endif
     //Prepare Block
     uint8_t requestData[OAD_BLOCK_SIZE];
     memcpy(requestData, _imageFileData + self.iBytes, OAD_BLOCK_SIZE);
+//    NSLog(@"self.iBytes = %d", self.iBytes);
     if (self.iBytes < self.nBytes) {
-        //[self.d.p writeValue:[NSData dataWithBytes:requestData length:OAD_BLOCK_SIZE] forCharacteristic:self.d.cImageBlock type:CBCharacteristicWriteWithResponse];
-        [self.d.p writeValue:[NSData dataWithBytes:requestData length:OAD_BLOCK_SIZE] forCharacteristic:self.d.cImageBlock type:CBCharacteristicWriteWithoutResponse];
+#if 0
+        int len = self.nBytes - self.iBytes;
+        if (len > OAD_BLOCK_SIZE) {
+            len = OAD_BLOCK_SIZE;
+        }
+#else
+        int len = OAD_BLOCK_SIZE;
+#endif
+#ifdef WRITE_WITH_RESPONSE
+        [self.d.p writeValue:[NSData dataWithBytes:requestData length:len] forCharacteristic:self.d.cImageBlock type:CBCharacteristicWriteWithResponse];
+#else
+        [self.d.p writeValue:[NSData dataWithBytes:requestData length:len] forCharacteristic:self.d.cImageBlock type:CBCharacteristicWriteWithoutResponse];
+#endif
     }
-    //[gTimer invalidate];
     self.iBytes += OAD_BLOCK_SIZE;
 #if 0
     if(self.iBlocks == self.nBlocks) {
@@ -634,8 +751,11 @@ typedef enum {
     }
 #else
     if (self.iBytes >= self.nBytes) {
+#ifndef WRITE_WITH_RESPONSE
         [gTimer invalidate];
-        [self performSelector:@selector(updateTimeOut) withObject:nil afterDelay:1.0];
+#endif
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateTimeOut) object:nil];
+        [self performSelector:@selector(updateTimeOut) withObject:nil afterDelay:3.0];
         return;
     }
 #endif
@@ -703,7 +823,7 @@ typedef enum {
             [self resetCC2541];
         }
         else {
-            [self performSelector:@selector(updateTimeOut) withObject:nil afterDelay:1.0];
+            [self performSelector:@selector(updateTimeOut) withObject:nil afterDelay:3.0];
         }
     }
 }
@@ -845,7 +965,7 @@ typedef enum {
     NSString * avs = [NSString stringWithFormat:@"Firmware upgrade was successfully completed, device needs to be reconnected.The left flash size is %ld(0x%08X)", (unsigned long)avSizeLeft, avSizeLeft];
     completeOK = [[UIAlertView alloc]initWithTitle:@"Firmware upgrade complete" message:avs delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [completeOK show];
-    [self performSelector:@selector(completionDialogOK) withObject:nil afterDelay:60.5];
+    [self performSelector:@selector(completionDialogOK) withObject:nil afterDelay:3.5];
     [UIScreen mainScreen].brightness = 0.8;
 }
 
@@ -880,6 +1000,7 @@ typedef enum {
 -(void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     NSLog(@"%s, error = %@", __func__, error);
     [self deviceDisconnected:peripheral];
+    [_idViewController performSelector:@selector(disConnectFromUS) withObject:nil afterDelay:3.598];
 }
 
 #pragma mark - CBPeripheralDelegate Callbacks
@@ -900,7 +1021,7 @@ typedef enum {
 }
 
 -(void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    //NSLog(@"%s,characteristic = %@, error = %@", __func__, characteristic, error);
+    NSLog(@"%s,characteristic = %@, error = %@", __func__, characteristic, error);
 //    [self didUpdateValueForProfile:characteristic];
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:[self.d.setupData valueForKey:@"OAD Image Block Request UUID"]]]) {
         uint8 datas[characteristic.value.length];
@@ -946,6 +1067,13 @@ typedef enum {
             [self performSelector:@selector(uploadBinBegin:) withObject:@"hehe" afterDelay:1.1];
         }
     }
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C4"]]) {
+        char datas[characteristic.value.length + 1];
+        [characteristic.value getBytes:datas length:characteristic.value.length+1];
+        datas[characteristic.value.length] = 0;
+        NSString *transString = [NSString stringWithCString:datas encoding:NSASCIIStringEncoding];
+        NSLog(@"transString = %@", transString);
+    }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"2A25"]]) {
         unsigned char data[characteristic.value.length+1];
         [characteristic.value getBytes:&data length:characteristic.value.length + 1];
@@ -959,7 +1087,12 @@ typedef enum {
 }
 
 -(void) peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    NSLog(@"%s, characteristic = %@, error = %@", __func__, characteristic, error);
+    //NSLog(@"%s, characteristic = %@, error = %@", __func__, characteristic, error);
     //[self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithUnsignedShort:5]];
+//    [self performSelector:@selector(uploadBinTickNotify:) withObject:[NSNumber numberWithInt:self.iBytes] afterDelay:0.051];
+#ifdef WRITE_WITH_RESPONSE
+    [self performSelector:@selector(uploadBinTickNotify)];
+#endif
+//    [self performSelector:@selector(uploadBinTickNotify) withObject:nil afterDelay:0.051];
 }
 @end

@@ -35,14 +35,16 @@
 		7FB5602618154055005B41CC /* BLETIOADProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB5602518154055005B41CC /* BLETIOADProgressViewController.m */; };
 		EE0D5C341B2FCB6D00DDD88D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0D5C331B2FCB6D00DDD88D /* Images.xcassets */; };
 		EE12A8811A2490EC0086F85D /* PhobosDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE12A8801A2490EC0086F85D /* PhobosDetailViewController.m */; };
-		EE2632311BCBB961003D9742 /* 1284p_127K_long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2632301BCBB961003D9742 /* 1284p_127K_long.bin */; settings = {ASSET_TAGS = (); }; };
-		EE2632331BCBB96F003D9742 /* 1284p_127K_short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2632321BCBB96F003D9742 /* 1284p_127K_short.bin */; settings = {ASSET_TAGS = (); }; };
+		EE2632311BCBB961003D9742 /* 1284p_127K_long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2632301BCBB961003D9742 /* 1284p_127K_long.bin */; };
+		EE2632331BCBB96F003D9742 /* 1284p_127K_short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2632321BCBB96F003D9742 /* 1284p_127K_short.bin */; };
 		EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDB1BA2AAF500F064B2 /* blink.bin */; };
 		EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDD1BA2AB0000F064B2 /* blink1.bin */; };
 		EE2A0FE01BA7CADB00F064B2 /* Blink.cpp.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FDF1BA7CADB00F064B2 /* Blink.cpp.bin */; };
 		EE2A0FE21BA80C2B00F064B2 /* Blink.short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FE11BA80C2B00F064B2 /* Blink.short.bin */; };
 		EE2A0FE41BA937B500F064B2 /* MPU6050_DMP6.cpp.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FE31BA937B500F064B2 /* MPU6050_DMP6.cpp.bin */; };
 		EE2A0FE61BA980CD00F064B2 /* MPU6050_FLASH.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FE51BA980CD00F064B2 /* MPU6050_FLASH.bin */; };
+		EE72F8A21BF055710077780B /* 1284p_5K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE72F8A11BF0556D0077780B /* 1284p_5K_Short.bin */; };
+		EE72F8A41BF055830077780B /* 1284p_5K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE72F8A31BF055830077780B /* 1284p_5K_Long.bin */; };
 		EEDF5B781941AEA80052B875 /* MTLogPluginFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */; };
 		EEDF5B791941AEA80052B875 /* MTLogPluginPrefix.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6F1941AEA80052B875 /* MTLogPluginPrefix.m */; };
 		EEDF5B7A1941AEA80052B875 /* MTLogPluginRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B711941AEA80052B875 /* MTLogPluginRegister.m */; };
@@ -51,14 +53,14 @@
 		EEDF5B7D1941AEA80052B875 /* MTLogPluginSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B771941AEA80052B875 /* MTLogPluginSearch.m */; };
 		EEDF5B821941AEB30052B875 /* MTLog.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B7F1941AEB30052B875 /* MTLog.m */; };
 		EEDF5B831941AEB30052B875 /* MTLogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B811941AEB30052B875 /* MTLogPlugin.m */; };
-		EEFC87C41BAC38B00036FCE3 /* 644p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */; settings = {ASSET_TAGS = (); }; };
-		EEFC87C61BAC38BB0036FCE3 /* 644p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */; settings = {ASSET_TAGS = (); }; };
-		EEFC87C81BAD13120036FCE3 /* 1284p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C71BAD13120036FCE3 /* 1284p_64K_Long.bin */; settings = {ASSET_TAGS = (); }; };
-		EEFC87CA1BAD131D0036FCE3 /* 1284p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */; settings = {ASSET_TAGS = (); }; };
-		EEFC87CC1BAD13240036FCE3 /* 1284p_90K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */; settings = {ASSET_TAGS = (); }; };
-		EEFC87CE1BAD132D0036FCE3 /* 1284p_90K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */; settings = {ASSET_TAGS = (); }; };
-		EEFC87D01BAD46680036FCE3 /* 1284p_13K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CF1BAD46680036FCE3 /* 1284p_13K_Long.bin */; settings = {ASSET_TAGS = (); }; };
-		EEFC87D21BAD46740036FCE3 /* 1284p_13K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87D11BAD46740036FCE3 /* 1284p_13K_Short.bin */; settings = {ASSET_TAGS = (); }; };
+		EEFC87C41BAC38B00036FCE3 /* 644p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */; };
+		EEFC87C61BAC38BB0036FCE3 /* 644p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */; };
+		EEFC87C81BAD13120036FCE3 /* 1284p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C71BAD13120036FCE3 /* 1284p_64K_Long.bin */; };
+		EEFC87CA1BAD131D0036FCE3 /* 1284p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C91BAD131D0036FCE3 /* 1284p_64K_Short.bin */; };
+		EEFC87CC1BAD13240036FCE3 /* 1284p_90K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CB1BAD13240036FCE3 /* 1284p_90K_Long.bin */; };
+		EEFC87CE1BAD132D0036FCE3 /* 1284p_90K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CD1BAD132D0036FCE3 /* 1284p_90K_Short.bin */; };
+		EEFC87D01BAD46680036FCE3 /* 1284p_13K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87CF1BAD46680036FCE3 /* 1284p_13K_Long.bin */; };
+		EEFC87D21BAD46740036FCE3 /* 1284p_13K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87D11BAD46740036FCE3 /* 1284p_13K_Short.bin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +114,8 @@
 		EE2A0FE11BA80C2B00F064B2 /* Blink.short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = Blink.short.bin; sourceTree = "<group>"; };
 		EE2A0FE31BA937B500F064B2 /* MPU6050_DMP6.cpp.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = MPU6050_DMP6.cpp.bin; sourceTree = "<group>"; };
 		EE2A0FE51BA980CD00F064B2 /* MPU6050_FLASH.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = MPU6050_FLASH.bin; sourceTree = "<group>"; };
+		EE72F8A11BF0556D0077780B /* 1284p_5K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_5K_Short.bin; sourceTree = "<group>"; };
+		EE72F8A31BF055830077780B /* 1284p_5K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_5K_Long.bin; sourceTree = "<group>"; };
 		EEDF5B6C1941AEA80052B875 /* MTLogPluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginFilter.h; sourceTree = "<group>"; };
 		EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLogPluginFilter.m; sourceTree = "<group>"; };
 		EEDF5B6E1941AEA80052B875 /* MTLogPluginPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginPrefix.h; sourceTree = "<group>"; };
@@ -218,6 +222,8 @@
 		7F6A781B169B2F2700DF5A5C /* Integrated Firmware Files */ = {
 			isa = PBXGroup;
 			children = (
+				EE72F8A31BF055830077780B /* 1284p_5K_Long.bin */,
+				EE72F8A11BF0556D0077780B /* 1284p_5K_Short.bin */,
 				EE2632301BCBB961003D9742 /* 1284p_127K_long.bin */,
 				EE2632321BCBB96F003D9742 /* 1284p_127K_short.bin */,
 				EEFC87D11BAD46740036FCE3 /* 1284p_13K_Short.bin */,
@@ -385,7 +391,9 @@
 				7F38C31A169AEFF000E239F9 /* Default.png in Resources */,
 				EE2A0FE21BA80C2B00F064B2 /* Blink.short.bin in Resources */,
 				EEFC87C61BAC38BB0036FCE3 /* 644p_64K_Long.bin in Resources */,
+				EE72F8A41BF055830077780B /* 1284p_5K_Long.bin in Resources */,
 				EE2A0FDE1BA2AB0000F064B2 /* blink1.bin in Resources */,
+				EE72F8A21BF055710077780B /* 1284p_5K_Short.bin in Resources */,
 				EE2A0FDC1BA2AAF500F064B2 /* blink.bin in Resources */,
 				EE2A0FE41BA937B500F064B2 /* MPU6050_DMP6.cpp.bin in Resources */,
 				EEFC87D01BAD46680036FCE3 /* 1284p_13K_Long.bin in Resources */,

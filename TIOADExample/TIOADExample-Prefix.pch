@@ -27,3 +27,5 @@ text: [NSString stringWithFormat:(s), ##__VA_ARGS__] \
 #endif
 
 //#define PHOBOS_SHENG_CHAN
+
+//#define WRITE_WITH_RESPONSE

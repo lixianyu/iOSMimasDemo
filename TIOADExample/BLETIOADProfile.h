@@ -60,5 +60,5 @@
 -(BOOL) validateImage:(NSString *)filename;
 -(BOOL) isCorrectImage;
 -(void) completionDialog;
-
+-(void)forAutoTest: (id)sender ;
 @end

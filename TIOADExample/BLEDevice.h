@@ -21,6 +21,7 @@
 @property (strong,nonatomic) CBCharacteristic *cImageNotiy;
 @property (strong,nonatomic) CBCharacteristic *cImageBlock;
 @property (strong,nonatomic) CBCharacteristic *cErrorReset;
+@property (strong,nonatomic) CBCharacteristic *cTransport;
 /// Pointer to dictionary with device setup data
 @property NSMutableDictionary *setupData;
 @end

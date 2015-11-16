@@ -15,11 +15,17 @@
 @property (strong, nonatomic) BLEDevice *bleDevice;
 @end
 
-@implementation ViewController
+@implementation ViewController {
+    BOOL mAuto;
+    uint8_t reConnectTimes;
+    uint32_t timesOfUpgrade;
+}
 
 - (void)viewDidLoad
 {
     NSLog(@"%s", __func__);
+    mAuto = NO;
+    reConnectTimes = 0;
     [super viewDidLoad];
     self.waitingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	// Do any additional setup after loading the view, typically from a nib.
@@ -33,6 +39,7 @@
     self.dSVC.delegate = self;
     [self.button2 setEnabled:NO];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    timesOfUpgrade = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -191,6 +198,7 @@
     _bleDevice.cImageNotiy = self.cImageNotiy;
     _bleDevice.cImageBlock = self.cImageBlock;
     _bleDevice.cErrorReset = self.cErrorReset;
+    _bleDevice.cTransport = self.cTrans;
     
     self.oadProfile = [[BLETIOADProfile alloc] initWithDevice:_bleDevice];
     self.oadProfile.progressView = [[BLETIOADProgressViewController alloc] init];
@@ -200,8 +208,22 @@
     self.oadProfile.view = self.view;
 }
 
+-(void)disConnectFromUS {
+    NSLog(@"%s", __func__);
+    timesOfUpgrade++;
+    NSLog(@"timesOfUpgrade = %u", timesOfUpgrade);
+    mAuto = YES;
+//    [self performSelector:@selector(reconnectPeripheral) withObject:nil afterDelay:30.002];
+}
+
+-(void)AutoTest {
+    NSLog(@"%s", __func__);
+    [self.oadProfile forAutoTest:self];
+}
 -(void)reconnectPeripheral {
     NSLog(@"%s", __func__);
+    self.dSVC.p.delegate = self;
+    self.manager.delegate = self;
     [self.manager connectPeripheral:self.dSVC.p options:NULL];
 }
 
@@ -254,6 +276,7 @@
 
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     NSLog(@"%s", __func__);
+    
 #if 1
     NSArray *arrayUUID = [NSArray arrayWithObjects:[CBUUID UUIDWithString:@"F0C0"], nil];
     [peripheral discoverServices:arrayUUID];
@@ -267,7 +290,10 @@
     NSLog(@"%s, error = %@", __func__, error);
     [self.oadProfile deviceDisconnected:peripheral];
     [self hideWaiting];
-    //[self performSelector:@selector(reconnectPeripheral) withObject:nil afterDelay:1];
+    if (reConnectTimes < 10) {
+        [self performSelector:@selector(reconnectPeripheral) withObject:nil afterDelay:2.003];
+        reConnectTimes++;
+    }
 }
 
 #pragma mark - CBPeripheralDelegate Callbacks
@@ -311,11 +337,20 @@
             }
             else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C3"]]) {
                 _cErrorReset = characteristic;
+                
+            }
+            else if([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C4"]]) {
+                _cTrans = characteristic;
                 [self initBLEDevice];
                 [self hideWaiting];
+                reConnectTimes = 0;
             }
         }
         //        [self performSelector:@selector(letUsreloadData) withObject:nil afterDelay:1.0];
+        if (mAuto == YES) {
+            //[self.oadProfile performSelector:@selector(forAutoTest) withObject:self afterDelay:3.038];
+            [self performSelector:@selector(AutoTest) withObject:nil afterDelay:2.039];
+        }
     }
 #if 0
     else if ([service.UUID isEqual:[CBUUID UUIDWithString:@"CCC0"]]) {
