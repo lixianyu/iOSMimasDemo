@@ -10,7 +10,7 @@
 #import "BLETIOADProfile.h"
 #import "BLETIOADProgressDialog.h"
 #import "BLEUtility.h"
-
+#if 0
 typedef enum {
     m328 = 0,
     m328p,
@@ -19,6 +19,28 @@ typedef enum {
     m1284,
     m1284p,
 }t_part_id;
+#endif
+typedef enum
+{
+    m328p_16M_5V = 0,//Upload speed is 115200
+    m328p_8M_3_3V,   //Upload speed is 57600
+    
+    m644p_16M_5V,    //Upload speed is 115200
+    m644p_8M_3_3V,   //Upload speed is 57600
+    
+    m1284p_16M_5V,   //Upload speed is 115200
+    m1284p_8M_3_3V,  //Upload speed is 57600
+    
+    m32u4_16M,       //Upload speed is 57600
+    m128rfa116m,     //Upload speed is 57600
+    
+    m328_16M_5V,     //Upload speed is 115200
+    m328_8M_3_3V,    //Upload speed is 57600
+    m644_16M_5V,     //Upload speed is 115200
+    m644_8M_3_3V,    //Upload speed is 57600
+    m1284_16M_5V,    //Upload speed is 115200
+    m1284_8M_3_3V,   //Upload speed is 57600
+} t_part_id;
 
 @interface BLETIOADProfile ()
 @property (strong, nonatomic) BLEDevice *bleDevice;
@@ -51,7 +73,7 @@ typedef enum {
         self.canceled = FALSE;
         self.inProgramming = FALSE;
         self.start = YES;
-        g_PartID = m328p;
+        g_PartID = m328p_8M_3_3V;
     }
     return self;
 }
@@ -152,7 +174,7 @@ typedef enum {
                 case 0: {
                     UIActionSheet *selectInternalFirmwareSheet = [[UIActionSheet alloc]initWithTitle:@"Select Firmware image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"blink328pShort.bin",@"blink328pLong.bin",
                                                                   @"Blink644pShort.bin",@"Blink644pLong.bin",
-                                                                  @"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin",@"644p_64K_Long.bin",@"644p_64K_Short",@"1284p_64K_Long",@"1284p_64K_Short",@"1284p_90K_Long",@"1284p_90K_Short",@"1284p_13K_Long", @"1284p_13K_Short", @"1284p_127K_Long", @"1284p_127K_Short",@"1284p_5K_Long",@"1284p_5K_Short", nil];
+                                                                  @"MPU6050_328p.bin",@"MPU6050_328p.FLASH.bin",@"644p_64K_Long.bin",@"644p_64K_Short",@"1284p_64K_Long",@"1284p_64K_Short",@"1284p_90K_Long",@"1284p_90K_Short",@"1284p_13K_Long", @"1284p_13K_Short", @"1284p_127K_Long", @"1284p_127K_Short",@"1284p_5K_Long",@"1284p_5K_Short",@"644pa16m_ChenHao", nil];
                     selectInternalFirmwareSheet.tag = 1;
                     [selectInternalFirmwareSheet showInView:self.view];
                     break;
@@ -178,7 +200,7 @@ typedef enum {
         case 1: {
             switch (buttonIndex) {
                 case 0: {
-                    g_PartID = m328p;
+                    g_PartID = m328p_8M_3_3V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"blink.bin"];
@@ -186,7 +208,7 @@ typedef enum {
                     break;
                 }
                 case 1: {
-                    g_PartID = m328p;
+                    g_PartID = m328p_8M_3_3V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"blink1.bin"];
@@ -194,7 +216,7 @@ typedef enum {
                     break;
                 }
                 case 2: {
-                    g_PartID = m644p;
+                    g_PartID = m644p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"Blink.short.bin"];
@@ -202,7 +224,7 @@ typedef enum {
                     break;
                 }
                 case 3: {
-                    g_PartID = m644p;
+                    g_PartID = m644p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"Blink.cpp.bin"];
@@ -210,7 +232,7 @@ typedef enum {
                     break;
                 }
                 case 4: {
-                    g_PartID = m328p;
+                    g_PartID = m328p_8M_3_3V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"MPU6050_DMP6.cpp.bin"];
@@ -218,7 +240,7 @@ typedef enum {
                     break;
                 }
                 case 5: {
-                    g_PartID = m328p;
+                    g_PartID = m328p_8M_3_3V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"MPU6050_FLASH.bin"];
@@ -226,7 +248,7 @@ typedef enum {
                     break;
                 }
                 case 6: {
-                    g_PartID = m644p;
+                    g_PartID = m644p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"644p_64K_Long.bin"];
@@ -234,7 +256,7 @@ typedef enum {
                     break;
                 }
                 case 7: {
-                    g_PartID = m644p;
+                    g_PartID = m644p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"644p_64K_Short.bin"];
@@ -242,7 +264,7 @@ typedef enum {
                     break;
                 }
                 case 8: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_64K_Long.bin"];
@@ -250,7 +272,7 @@ typedef enum {
                     break;
                 }
                 case 9: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_64K_Short.bin"];
@@ -258,7 +280,7 @@ typedef enum {
                     break;
                 }
                 case 10: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_90K_Long.bin"];
@@ -266,7 +288,7 @@ typedef enum {
                     break;
                 }
                 case 11: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_90K_Short.bin"];
@@ -274,7 +296,7 @@ typedef enum {
                     break;
                 }
                 case 12: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_13K_Long.bin"];
@@ -282,7 +304,7 @@ typedef enum {
                     break;
                 }
                 case 13: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_13K_Short.bin"];
@@ -290,7 +312,7 @@ typedef enum {
                     break;
                 }
                 case 14: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_127K_long.bin"];
@@ -298,7 +320,7 @@ typedef enum {
                     break;
                 }
                 case 15: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_127K_short.bin"];
@@ -306,7 +328,7 @@ typedef enum {
                     break;
                 }
                 case 16: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_5K_Long.bin"];
@@ -314,10 +336,18 @@ typedef enum {
                     break;
                 }
                 case 17: {
-                    g_PartID = m1284p;
+                    g_PartID = m1284p_16M_5V;
                     NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
                     [path appendString:@"/"] ;
                     [path appendString:@"1284p_5K_Short.bin"];
+                    [self validateImage:path];
+                    break;
+                }
+                case 18: {
+                    g_PartID = m644p_16M_5V;
+                    NSMutableString *path= [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+                    [path appendString:@"/"] ;
+                    [path appendString:@"644pa16m_ChenHao.bin"];
                     [self validateImage:path];
                     break;
                 }
@@ -334,14 +364,20 @@ typedef enum {
             NSString * lastPC =[fileName lastPathComponent];
             NSLog(@"lastPC = %@", lastPC);
             if ([lastPC hasPrefix:@"1284p"]) {
-                g_PartID = m1284p;
+                g_PartID = m1284p_16M_5V;
             }
             else if ([lastPC hasPrefix:@"644p"])
             {
-                g_PartID = m644p;
+                g_PartID = m644p_16M_5V;
             }
             else if ([lastPC hasPrefix:@"328p"]) {
-                g_PartID = m328p;
+                g_PartID = m328p_8M_3_3V;
+            }
+            else if ([lastPC hasPrefix:@"32u4"]) {
+                g_PartID = m32u4_16M;
+            }
+            else if ([lastPC hasPrefix:@"128rfa"]) {
+                g_PartID = m128rfa116m;
             }
             [self validateImage:fileName];
             break;
@@ -354,7 +390,7 @@ typedef enum {
 -(void)forAutoTest: (id)sender {
     static uint8_t u8whichOne = 0;
     _idViewController = sender;
-    g_PartID = m1284p;
+    g_PartID = m1284p_16M_5V;
 #if 0
     char fileNameCharsLong[] = "/var/mobile/Containers/Bundle/Application/2A5B3E5E-A401-4E66-BD83-B9FE5D811737/TIOADExample.app/1284p_13K_Long.bin";
     char fileNameCharsShort[] = "/var/mobile/Containers/Bundle/Application/C5A2BCB3-5874-4A9D-ACCF-3628695C5046/TIOADExample.app/1284p_13K_Short.bin";
@@ -378,7 +414,7 @@ typedef enum {
         [self validateImage:pathShort];
         u8whichOne = 0;
     }
-#else
+#elif 0
     if (u8whichOne == 0) {
         NSMutableString *pathLong = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
         [pathLong appendString:@"/"] ;
@@ -390,6 +426,21 @@ typedef enum {
         NSMutableString *pathShort = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
         [pathShort appendString:@"/"] ;
         [pathShort appendString:@"1284p_13K_Short.bin"];
+        [self validateImage:pathShort];
+        u8whichOne = 0;
+    }
+#else
+    if (u8whichOne == 0) {
+        NSMutableString *pathLong = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+        [pathLong appendString:@"/"] ;
+        [pathLong appendString:@"MPU6050_DMP6.cpp.bin"];
+        [self validateImage:pathLong];
+        u8whichOne = 1;
+    }
+    else {
+        NSMutableString *pathShort = [[NSMutableString  alloc] initWithString: [[NSBundle mainBundle] resourcePath]];
+        [pathShort appendString:@"/"] ;
+        [pathShort appendString:@"MPU6050_FLASH.bin"];
         [self validateImage:pathShort];
         u8whichOne = 0;
     }
@@ -676,7 +727,7 @@ typedef enum {
     time1 = mach_absolute_time();
     writeInterval = 0.050;
 #else
-    writeInterval = 0.009;
+    writeInterval = 0.013;
 #endif
     //secondsPerBlock = 0.04375;
     //secondsPerBlock = 0.00625;
@@ -1000,7 +1051,7 @@ typedef enum {
 -(void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     NSLog(@"%s, error = %@", __func__, error);
     [self deviceDisconnected:peripheral];
-//    [_idViewController performSelector:@selector(disConnectFromUS) withObject:nil afterDelay:3.598];
+//    [_idViewController performSelector:@selector(disConnectFromUS) withObject:nil afterDelay:3.698];
 }
 
 #pragma mark - CBPeripheralDelegate Callbacks

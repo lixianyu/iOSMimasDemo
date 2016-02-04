@@ -45,6 +45,7 @@
 		EE2A0FE61BA980CD00F064B2 /* MPU6050_FLASH.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE2A0FE51BA980CD00F064B2 /* MPU6050_FLASH.bin */; };
 		EE72F8A21BF055710077780B /* 1284p_5K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE72F8A11BF0556D0077780B /* 1284p_5K_Short.bin */; };
 		EE72F8A41BF055830077780B /* 1284p_5K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE72F8A31BF055830077780B /* 1284p_5K_Long.bin */; };
+		EE9D33D21C0440D60024E435 /* 644pa16m_ChenHao.bin in Resources */ = {isa = PBXBuildFile; fileRef = EE9D33D11C0440D60024E435 /* 644pa16m_ChenHao.bin */; };
 		EEDF5B781941AEA80052B875 /* MTLogPluginFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */; };
 		EEDF5B791941AEA80052B875 /* MTLogPluginPrefix.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B6F1941AEA80052B875 /* MTLogPluginPrefix.m */; };
 		EEDF5B7A1941AEA80052B875 /* MTLogPluginRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B711941AEA80052B875 /* MTLogPluginRegister.m */; };
@@ -116,6 +117,7 @@
 		EE2A0FE51BA980CD00F064B2 /* MPU6050_FLASH.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = MPU6050_FLASH.bin; sourceTree = "<group>"; };
 		EE72F8A11BF0556D0077780B /* 1284p_5K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_5K_Short.bin; sourceTree = "<group>"; };
 		EE72F8A31BF055830077780B /* 1284p_5K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_5K_Long.bin; sourceTree = "<group>"; };
+		EE9D33D11C0440D60024E435 /* 644pa16m_ChenHao.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 644pa16m_ChenHao.bin; sourceTree = "<group>"; };
 		EEDF5B6C1941AEA80052B875 /* MTLogPluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginFilter.h; sourceTree = "<group>"; };
 		EEDF5B6D1941AEA80052B875 /* MTLogPluginFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLogPluginFilter.m; sourceTree = "<group>"; };
 		EEDF5B6E1941AEA80052B875 /* MTLogPluginPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPluginPrefix.h; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		7F6A781B169B2F2700DF5A5C /* Integrated Firmware Files */ = {
 			isa = PBXGroup;
 			children = (
+				EE9D33D11C0440D60024E435 /* 644pa16m_ChenHao.bin */,
 				EE72F8A31BF055830077780B /* 1284p_5K_Long.bin */,
 				EE72F8A11BF0556D0077780B /* 1284p_5K_Short.bin */,
 				EE2632301BCBB961003D9742 /* 1284p_127K_long.bin */,
@@ -386,6 +389,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE9D33D21C0440D60024E435 /* 644pa16m_ChenHao.bin in Resources */,
 				7F38C312169AEFF000E239F9 /* InfoPlist.strings in Resources */,
 				EE2632331BCBB96F003D9742 /* 1284p_127K_short.bin in Resources */,
 				7F38C31A169AEFF000E239F9 /* Default.png in Resources */,

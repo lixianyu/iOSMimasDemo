@@ -213,7 +213,7 @@
     timesOfUpgrade++;
     NSLog(@"timesOfUpgrade = %u", timesOfUpgrade);
     mAuto = YES;
-    [self performSelector:@selector(reconnectPeripheral) withObject:nil afterDelay:30.002];
+    [self performSelector:@selector(reconnectPeripheral) withObject:nil afterDelay:38.002];
 }
 
 -(void)AutoTest {
