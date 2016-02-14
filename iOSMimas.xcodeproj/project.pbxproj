@@ -65,14 +65,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7F38C303169AEFF000E239F9 /* TIOADExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TIOADExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F38C303169AEFF000E239F9 /* Mimas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mimas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F38C307169AEFF000E239F9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7F38C309169AEFF000E239F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7F38C30B169AEFF000E239F9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		7F38C30F169AEFF000E239F9 /* TIOADExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TIOADExample-Info.plist"; sourceTree = "<group>"; };
+		7F38C30F169AEFF000E239F9 /* iOSMimas-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOSMimas-Info.plist"; sourceTree = "<group>"; };
 		7F38C311169AEFF000E239F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7F38C313169AEFF000E239F9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7F38C315169AEFF000E239F9 /* TIOADExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TIOADExample-Prefix.pch"; sourceTree = "<group>"; };
+		7F38C315169AEFF000E239F9 /* iOSMimas-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSMimas-Prefix.pch"; sourceTree = "<group>"; };
 		7F38C316169AEFF000E239F9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7F38C317169AEFF000E239F9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7F38C319169AEFF000E239F9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 		7F38C304169AEFF000E239F9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7F38C303169AEFF000E239F9 /* TIOADExample.app */,
+				7F38C303169AEFF000E239F9 /* Mimas.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -210,10 +210,10 @@
 		7F38C30E169AEFF000E239F9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7F38C30F169AEFF000E239F9 /* TIOADExample-Info.plist */,
+				7F38C30F169AEFF000E239F9 /* iOSMimas-Info.plist */,
 				7F38C310169AEFF000E239F9 /* InfoPlist.strings */,
 				7F38C313169AEFF000E239F9 /* main.m */,
-				7F38C315169AEFF000E239F9 /* TIOADExample-Prefix.pch */,
+				7F38C315169AEFF000E239F9 /* iOSMimas-Prefix.pch */,
 				7F38C319169AEFF000E239F9 /* Default.png */,
 				7F38C31B169AEFF000E239F9 /* Default@2x.png */,
 				7F38C31D169AEFF000E239F9 /* Default-568h@2x.png */,
@@ -341,9 +341,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7F38C302169AEFF000E239F9 /* TIOADExample */ = {
+		7F38C302169AEFF000E239F9 /* Mimas */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7F38C32A169AEFF100E239F9 /* Build configuration list for PBXNativeTarget "TIOADExample" */;
+			buildConfigurationList = 7F38C32A169AEFF100E239F9 /* Build configuration list for PBXNativeTarget "Mimas" */;
 			buildPhases = (
 				7F38C2FF169AEFF000E239F9 /* Sources */,
 				7F38C300169AEFF000E239F9 /* Frameworks */,
@@ -353,9 +353,9 @@
 			);
 			dependencies = (
 			);
-			name = TIOADExample;
+			name = Mimas;
 			productName = TIOADExample;
-			productReference = 7F38C303169AEFF000E239F9 /* TIOADExample.app */;
+			productReference = 7F38C303169AEFF000E239F9 /* Mimas.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -367,7 +367,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Texas Instruments";
 			};
-			buildConfigurationList = 7F38C2FD169AEFF000E239F9 /* Build configuration list for PBXProject "TIOADExample" */;
+			buildConfigurationList = 7F38C2FD169AEFF000E239F9 /* Build configuration list for PBXProject "iOSMimas" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -379,7 +379,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7F38C302169AEFF000E239F9 /* TIOADExample */,
+				7F38C302169AEFF000E239F9 /* Mimas */,
 			);
 		};
 /* End PBXProject section */
@@ -542,8 +542,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Lei weiqiang (Y53G4KBW52)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TIOADExample/TIOADExample-Prefix.pch";
-				INFOPLIST_FILE = "TIOADExample/TIOADExample-Info.plist";
+				GCC_PREFIX_HEADER = "TIOADExample/iOSMimas-Prefix.pch";
+				INFOPLIST_FILE = "TIOADExample/iOSMimas-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.huoweiyi.mimas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -557,8 +557,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Lei weiqiang (Y53G4KBW52)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TIOADExample/TIOADExample-Prefix.pch";
-				INFOPLIST_FILE = "TIOADExample/TIOADExample-Info.plist";
+				GCC_PREFIX_HEADER = "TIOADExample/iOSMimas-Prefix.pch";
+				INFOPLIST_FILE = "TIOADExample/iOSMimas-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.huoweiyi.mimas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -570,7 +570,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7F38C2FD169AEFF000E239F9 /* Build configuration list for PBXProject "TIOADExample" */ = {
+		7F38C2FD169AEFF000E239F9 /* Build configuration list for PBXProject "iOSMimas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7F38C328169AEFF000E239F9 /* Debug */,
@@ -579,7 +579,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7F38C32A169AEFF100E239F9 /* Build configuration list for PBXNativeTarget "TIOADExample" */ = {
+		7F38C32A169AEFF100E239F9 /* Build configuration list for PBXNativeTarget "Mimas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7F38C32B169AEFF100E239F9 /* Debug */,
