@@ -545,6 +545,7 @@
 				GCC_PREFIX_HEADER = "TIOADExample/TIOADExample-Prefix.pch";
 				INFOPLIST_FILE = "TIOADExample/TIOADExample-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huoweiyi.mimas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bba5c7b0-fbc2-4061-92de-a150e3e15dbb";
 				WRAPPER_EXTENSION = app;
@@ -559,6 +560,7 @@
 				GCC_PREFIX_HEADER = "TIOADExample/TIOADExample-Prefix.pch";
 				INFOPLIST_FILE = "TIOADExample/TIOADExample-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huoweiyi.mimas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bba5c7b0-fbc2-4061-92de-a150e3e15dbb";
 				WRAPPER_EXTENSION = app;
