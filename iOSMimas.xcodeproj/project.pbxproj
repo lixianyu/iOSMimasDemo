@@ -54,6 +54,7 @@
 		EEDF5B7D1941AEA80052B875 /* MTLogPluginSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B771941AEA80052B875 /* MTLogPluginSearch.m */; };
 		EEDF5B821941AEB30052B875 /* MTLog.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B7F1941AEB30052B875 /* MTLog.m */; };
 		EEDF5B831941AEB30052B875 /* MTLogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDF5B811941AEB30052B875 /* MTLogPlugin.m */; };
+		EEF1C7851C7169F600BE6750 /* protocol_mimas.c in Sources */ = {isa = PBXBuildFile; fileRef = EEF1C7831C7169F600BE6750 /* protocol_mimas.c */; };
 		EEFC87C41BAC38B00036FCE3 /* 644p_64K_Short.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */; };
 		EEFC87C61BAC38BB0036FCE3 /* 644p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */; };
 		EEFC87C81BAD13120036FCE3 /* 1284p_64K_Long.bin in Resources */ = {isa = PBXBuildFile; fileRef = EEFC87C71BAD13120036FCE3 /* 1284p_64K_Long.bin */; };
@@ -134,6 +135,8 @@
 		EEDF5B7F1941AEB30052B875 /* MTLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLog.m; sourceTree = "<group>"; };
 		EEDF5B801941AEB30052B875 /* MTLogPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLogPlugin.h; sourceTree = "<group>"; };
 		EEDF5B811941AEB30052B875 /* MTLogPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLogPlugin.m; sourceTree = "<group>"; };
+		EEF1C7831C7169F600BE6750 /* protocol_mimas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = protocol_mimas.c; sourceTree = "<group>"; };
+		EEF1C7841C7169F600BE6750 /* protocol_mimas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocol_mimas.h; sourceTree = "<group>"; };
 		EEFC87C31BAC38B00036FCE3 /* 644p_64K_Short.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 644p_64K_Short.bin; sourceTree = "<group>"; };
 		EEFC87C51BAC38BB0036FCE3 /* 644p_64K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 644p_64K_Long.bin; sourceTree = "<group>"; };
 		EEFC87C71BAD13120036FCE3 /* 1284p_64K_Long.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1284p_64K_Long.bin; sourceTree = "<group>"; };
@@ -281,6 +284,8 @@
 				7F38C330169AF52800E239F9 /* deviceSelectorViewController.m */,
 				EE12A87F1A2490EC0086F85D /* PhobosDetailViewController.h */,
 				EE12A8801A2490EC0086F85D /* PhobosDetailViewController.m */,
+				EEF1C7831C7169F600BE6750 /* protocol_mimas.c */,
+				EEF1C7841C7169F600BE6750 /* protocol_mimas.h */,
 			);
 			name = "Device Selection";
 			sourceTree = "<group>";
@@ -448,6 +453,7 @@
 				7F6A7805169B116A00DF5A5C /* BLEDevice.m in Sources */,
 				7F6A780B169B11F800DF5A5C /* BLETIOADProgressDialog.m in Sources */,
 				EE12A8811A2490EC0086F85D /* PhobosDetailViewController.m in Sources */,
+				EEF1C7851C7169F600BE6750 /* protocol_mimas.c in Sources */,
 				7F6A780C169B11F800DF5A5C /* BLEUtility.m in Sources */,
 				7FB5602618154055005B41CC /* BLETIOADProgressViewController.m in Sources */,
 			);
@@ -505,7 +511,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "bba5c7b0-fbc2-4061-92de-a150e3e15dbb";
 				SDKROOT = iphoneos;
@@ -528,7 +534,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "bba5c7b0-fbc2-4061-92de-a150e3e15dbb";
 				SDKROOT = iphoneos;

@@ -70,6 +70,16 @@
 //    [self performSelector:@selector(testLxy3) withObject:nil afterDelay:2.9];
 }
 
+- (void)testEcho {
+    NSLog(@"%s", __func__);
+    [self.p setNotifyValue:YES forCharacteristic:self.cImageNotiy];
+    [self performSelector:@selector(testEcho1) withObject:nil afterDelay:2.0];
+}
+- (void)testEcho1 {
+    NSLog(@"%s", __func__);
+    
+}
+
 - (void)testlxy {
     NSLog(@"%s", __func__);
     CBUUID *sUUID = [CBUUID UUIDWithString:@"013d8e3b-1877-4d5c-bc59-aaa7e5082346"];
@@ -241,7 +251,7 @@
         [self.manager connectPeripheral:self.dSVC.p options:NULL];
         self.button1.enabled = NO;
         self.button2.enabled = NO;
-        [self showWaiting:self.view];
+//        [self showWaiting:self.view];
     }
 #if 0
     else {
@@ -276,9 +286,9 @@
 
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     NSLog(@"%s", __func__);
-    
+    self.p = peripheral;
 #if 1
-    NSArray *arrayUUID = [NSArray arrayWithObjects:[CBUUID UUIDWithString:@"F0C0"], nil];
+    NSArray *arrayUUID = [NSArray arrayWithObjects:[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"], nil];
     [peripheral discoverServices:arrayUUID];
 #else
     [self.button2 setEnabled:YES];
@@ -303,7 +313,7 @@
     //    [self.tableView reloadData];
     for (CBService *s in peripheral.services) {
         //if ([s.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
-        if ([s.UUID isEqual:[CBUUID UUIDWithString:@"F0C0"]]) {
+        if ([s.UUID isEqual:[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
             [peripheral discoverCharacteristics:nil forService:s];
         }
 #if 0
@@ -325,16 +335,17 @@
     NSLog(@"Service : %@", service.UUID);
     NSLog(@"Characteristic : %@", service.characteristics);
     //if ([service.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C0-0451-4000-B000-000000000000"]]) {
-    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"F0C0"]]) {
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
         for (CBCharacteristic *characteristic in service.characteristics) {
             //if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C1-0451-4000-B000-000000000000"]]) {
-            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C1"]]) {
+            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"6E400003-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
                 _cImageNotiy = characteristic;
             }
             //else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000F0C2-0451-4000-B000-000000000000"]]) {
-            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C2"]]) {
+            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"6E400002-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
                 _cImageBlock = characteristic;
             }
+#if 0
             else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F0C3"]]) {
                 _cErrorReset = characteristic;
                 
@@ -345,6 +356,7 @@
                 [self hideWaiting];
                 reConnectTimes = 0;
             }
+#endif
         }
         //        [self performSelector:@selector(letUsreloadData) withObject:nil afterDelay:1.0];
         if (mAuto == YES) {

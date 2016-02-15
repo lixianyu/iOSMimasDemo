@@ -151,12 +151,12 @@
     NSString *localName = advertisementData[@"kCBAdvDataLocalName"];
     NSLog(@"localName = %@", localName);
     
-    if (![localName hasPrefix:@"Elara"]) {
-        NSLog(@"This is not a Elara, so just return !");
+    if (![localName hasPrefix:@"Toweer"]) {
+        NSLog(@"This is not a Toweer, so just return !");
         return;
     }
     if ([self.devices containsObject:peripheral]) {
-        NSLog(@"OH, Let's reconnect it!");
+//        NSLog(@"OH, Let's reconnect it!");
 //        [self.manager connectPeripheral:peripheral options:nil];
         //[self performSelector:@selector(reConnect:) withObject:peripheral afterDelay:4.8];
         return;
@@ -198,9 +198,10 @@
 //    [self.manager cancelPeripheralConnection:peripheral];
 //    [self.tableView reloadData];
     for (CBService *s in peripheral.services) {
-        if ([s.UUID isEqual:[CBUUID UUIDWithString:@"F000FFC0-0451-4000-B000-000000000000"]]) {
+        if ([s.UUID isEqual:[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
             [peripheral discoverCharacteristics:nil forService:s];
         }
+#if 0
         else if ([s.UUID isEqual:[CBUUID UUIDWithString:@"180A"]]) {
             [peripheral discoverCharacteristics:nil forService:s];
         }
@@ -210,6 +211,7 @@
         else if ([s.UUID isEqual:[CBUUID UUIDWithString:@"013d8e3b-1877-4d5c-bc59-aaa7e5082346"]]) {
             [peripheral discoverCharacteristics:nil forService:s];
         }
+#endif
     }
 }
 
@@ -217,19 +219,21 @@
     NSLog(@"%s", __func__);
     NSLog(@"Service : %@", service.UUID);
     NSLog(@"Characteristic : %@", service.characteristics);
-    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"F000FFC0-0451-4000-B000-000000000000"]]) {
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
         for (CBCharacteristic *characteristic in service.characteristics) {
-            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000FFC1-0451-4000-B000-000000000000"]]) {
+            if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"6E400002-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
                 _cImageNotiy = characteristic;
             }
-            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"F000FFC2-0451-4000-B000-000000000000"]]) {
+            else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"6E400003-B5A3-F393-E0A9-E50E24DCCA9E"]]) {
                 _cImageBlock = characteristic;
             }
         }
 //        [self performSelector:@selector(letUsreloadData) withObject:nil afterDelay:1.0];
     }
+#if 0
     else if ([service.UUID isEqual:[CBUUID UUIDWithString:@"CCC0"]]) {
         [self performSelector:@selector(letUsreloadData) withObject:nil afterDelay:1.0];
     }
+#endif
 }
 @end
