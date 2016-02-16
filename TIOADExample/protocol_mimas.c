@@ -7,9 +7,13 @@
 //
 
 #include "protocol_mimas.h"
+
 uint8_t global_reponse_buffer[GLOBAL_RESPONSE_BUFFER_SIZE];
 //used to send buffer individually
 uint8_t global_L1_header_buffer[L1_HEADER_SIZE];
+L1_Send_Content sendContent[1];
+uint16_t L1_sequence_id = 0;
+L1_Header_Schedule_type_t L1_header_need_schedule = {NULL, 0};
 
 /** CRC table for the CRC-16. The poly is 0x8005 (x^16 + x^15 + x^2 + 1) */
 uint16_t const crc16_table[256] =
@@ -149,7 +153,7 @@ uint32_t L1_send(L2_Send_Content * content)
     L1_header_need_schedule.content = &sendContent[i];
     
     //schedule async send
-    schedule_async_send(&sendContent[i],TASK_DATA);
+//    schedule_async_send(&sendContent[i],TASK_DATA);
     
     return NRF_SUCCESS;
     

@@ -1,9 +1,10 @@
 //
 // Prefix header for all source files of the 'TIOADExample' target in the 'TIOADExample' project
 //
+#define DEBUG_PHOBOS
 
 #import <Availability.h>
-#import "MTLog.h"
+
 #ifndef __IPHONE_5_0
 #warning "This project uses features only available in iOS SDK 5.0 and later."
 #endif
@@ -11,10 +12,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-#endif
-
-#define DEBUG_PHOBOS
-
+#import "MTLog.h"
 #ifdef DEBUG_PHOBOS
 #define NSLog( s, ... ) [MTLog log: \
 [[NSString stringWithUTF8String:__FILE__] lastPathComponent] \
@@ -25,6 +23,11 @@ text: [NSString stringWithFormat:(s), ##__VA_ARGS__] \
 #else
 #define NSLog( s, ...)
 #endif
+#endif
+
+
+
+
 
 //#define PHOBOS_SHENG_CHAN
 

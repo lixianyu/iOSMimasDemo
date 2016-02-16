@@ -369,7 +369,7 @@
 		7F38C2FA169AEFF000E239F9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Texas Instruments";
 			};
 			buildConfigurationList = 7F38C2FD169AEFF000E239F9 /* Build configuration list for PBXProject "iOSMimas" */;
@@ -500,6 +500,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Lei weiqiang (Y53G4KBW52)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
