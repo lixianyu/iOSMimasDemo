@@ -11,6 +11,8 @@
 #import "BLEDevice.h"
 #import "BLEUtility.h"
 #import "AppDelegate.h"
+#include "protocol_mimas.h"
+
 @interface ViewController ()
 @property (strong, nonatomic) BLEDevice *bleDevice;
 @end
@@ -19,6 +21,7 @@
     BOOL mAuto;
     uint8_t reConnectTimes;
     uint32_t timesOfUpgrade;
+    L1_Send_Content content_l1;
 }
 
 - (void)viewDidLoad
@@ -63,21 +66,49 @@
 
 - (IBAction)button2Selected:(id)sender {
     NSLog(@"%s", __func__);
-    [self.oadProfile selectImagePressed:self];
+//    [self.oadProfile selectImagePressed:self];
 //    [self testlxy];
 //    [self performSelector:@selector(testLxy1) withObject:nil afterDelay:3.0];
 //    [self performSelector:@selector(testLxy2) withObject:nil afterDelay:2.9];
 //    [self performSelector:@selector(testLxy3) withObject:nil afterDelay:2.9];
+    [self testMimasEcho];
 }
 
-- (void)testEcho {
+- (void)testMimasEcho {
     NSLog(@"%s", __func__);
-    [self.p setNotifyValue:YES forCharacteristic:self.cImageNotiy];
-    [self performSelector:@selector(testEcho1) withObject:nil afterDelay:2.0];
+    memset(&content_l1, 0, sizeof(L1_Send_Content));
+    if (![self.cImageNotiy isNotifying]) {
+        [self.p setNotifyValue:YES forCharacteristic:self.cImageNotiy];
+    }
+    [self performSelector:@selector(testMimasEcho1) withObject:nil afterDelay:2.0];
 }
-- (void)testEcho1 {
+- (void)testMimasEcho1 {
     NSLog(@"%s", __func__);
-    
+    char data[16];
+    strcpy(data, "Mimas");
+    L2_Send_Content content;
+    generate_l2_package(&content, FACTORY_TEST_COMMAND_ID, KEY_REQUEST_ECHO, 5, (uint8_t*)data);
+    generate_l1_package(&content, &content_l1);
+#if 0
+    CBUUID *sUUID = [CBUUID UUIDWithString:@"6E400001-B5A3-F393-E0A9-E50E24DCCA9E"];
+    CBUUID *cUUID = [CBUUID UUIDWithString:@"6E400002-B5A3-F393-E0A9-E50E24DCCA9E"];
+    [BLEUtility writeCharacteristic:self.p sCBUUID:sUUID cCBUUID:cUUID data:[NSData dataWithBytes:content_l1.content length:content_l1.length]];
+#endif
+    uint16_t sendLength = content_l1.length > BLE_NUS_MAX_DATA_LEN ? BLE_NUS_MAX_DATA_LEN : content_l1.length;
+//    [self.p writeValue:[NSData dataWithBytes:content_l1.content length:content_l1.length] forCharacteristic:_cImageBlock type:CBCharacteristicWriteWithoutResponse];
+    [self.p writeValue:[NSData dataWithBytes:content_l1.content length:content_l1.length] forCharacteristic:_cImageBlock type:CBCharacteristicWriteWithResponse];
+    content_l1.contentLeft -= sendLength;
+    NSLog(@"sequence_id = %d", content_l1.sequence_id);
+}
+
+- (void)continueSendMimas {
+    NSLog(@"%s, contentLeft = %d", __func__, content_l1.contentLeft);
+    uint16_t sendLength = 0;
+    if (content_l1.contentLeft > 0) {
+        sendLength = content_l1.contentLeft > BLE_NUS_MAX_DATA_LEN ? BLE_NUS_MAX_DATA_LEN : content_l1.contentLeft;
+        [self.p writeValue:[NSData dataWithBytes:content_l1.content length:content_l1.length] forCharacteristic:_cImageBlock type:CBCharacteristicWriteWithResponse];
+        content_l1.contentLeft -= sendLength;
+    }
 }
 
 - (void)testlxy {
@@ -378,8 +409,9 @@
 }
 
 -(void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    //NSLog(@"%s", __func__);
-    //NSLog(@"%s, characteristic = %@", __func__, characteristic);
+//    NSLog(@"%s", __func__);
+    NSLog(@"%s, characteristic = %@", __func__, characteristic);
+#if 0
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"2A25"]]) {
         unsigned char data[characteristic.value.length];
         [characteristic.value getBytes:&data];
@@ -393,11 +425,14 @@
     {
         [self.oadProfile didUpdateValueForProfile:characteristic];
     }
+#else
+    
+#endif
 }
 
 -(void) peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     NSLog(@"%s, characteristic uuid = %@, error = %@", __func__, characteristic.UUID.UUIDString, error);
-    
+    [self performSelector:@selector(continueSendMimas) withObject:nil afterDelay:0.002];
 }
 
 //显示进度滚轮指示器

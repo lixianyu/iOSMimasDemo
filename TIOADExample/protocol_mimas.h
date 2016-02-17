@@ -43,6 +43,8 @@ typedef enum {
     TEST_COMMAND_ID = 0xFF
 }BLUETOOTH_COMMUNICATE_COMMAND;
 
+#define BLE_NUS_MAX_DATA_LEN 20
+
 #define L1_HEADER_MAGIC  (0xAB)     /*header magic number */
 #define L1_HEADER_VERSION (0x00)     /*protocol version */
 #define L1_HEADER_SIZE   (8)      /*L1 header length*/
@@ -52,7 +54,7 @@ typedef enum {
  ***************************************************************************/
 #define L1_HEADER_MAGIC_POS             (0)
 #define L1_HEADER_PROTOCOL_VERSION_POS  (1)
-#define L1_PAYLOAD_LENGTH_HIGH_BYTE_POS (2)         /* L1 payload lengh high byte */
+#define L1_PAYLOAD_LENGTH_HIGH_BYTE_POS (2)         /* L1 payload length high byte */
 #define L1_PAYLOAD_LENGTH_LOW_BYTE_POS  (3)
 #define L1_HEADER_CRC16_HIGH_BYTE_POS   (4)
 #define L1_HEADER_CRC16_LOW_BYTE_POS    (5)
@@ -381,5 +383,14 @@ typedef enum {
 #define NRF_ERROR_FORBIDDEN                   (NRF_ERROR_BASE_NUM + 15) ///< Forbidden Operation
 #define NRF_ERROR_INVALID_ADDR                (NRF_ERROR_BASE_NUM + 16) ///< Bad Memory Address
 #define NRF_ERROR_BUSY                        (NRF_ERROR_BASE_NUM + 17) ///< Busy
+
+
+extern void generate_l2_package(
+                                L2_Send_Content *content,
+                                BLUETOOTH_COMMUNICATE_COMMAND id,
+                                uint8_t key,
+                                uint16_t length,
+                                uint8_t* value);
+extern void generate_l1_package(L2_Send_Content *l2_content, L1_Send_Content *l1_content);
 
 #endif /* protocol_mimas_h */
