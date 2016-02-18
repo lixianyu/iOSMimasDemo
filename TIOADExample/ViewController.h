@@ -16,6 +16,8 @@
 #import "BLETIOADProfile.h"
 #import "BLETIOADProgressViewController.h"
 
+#define RECEIVE_TIMEOUT 8.0
+
 #ifdef PHOBOS_SHENG_CHAN
 @interface ViewController : UIViewController <CBCentralManagerDelegate, CBPeripheralDelegate, ShengChanDelegate>
 #else

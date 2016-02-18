@@ -384,7 +384,7 @@ typedef enum {
 #define NRF_ERROR_INVALID_ADDR                (NRF_ERROR_BASE_NUM + 16) ///< Bad Memory Address
 #define NRF_ERROR_BUSY                        (NRF_ERROR_BASE_NUM + 17) ///< Busy
 
-
+#if 0
 extern void generate_l2_package(
                                 L2_Send_Content *content,
                                 BLUETOOTH_COMMUNICATE_COMMAND id,
@@ -392,5 +392,6 @@ extern void generate_l2_package(
                                 uint16_t length,
                                 uint8_t* value);
 extern void generate_l1_package(L2_Send_Content *l2_content, L1_Send_Content *l1_content);
-
+#endif
+extern uint16_t bd_crc16(uint16_t crc, uint8_t const *buffer, uint16_t len);
 #endif /* protocol_mimas_h */

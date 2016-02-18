@@ -9,11 +9,11 @@
 #include "protocol_mimas.h"
 #include <string.h>
 
-uint8_t global_reponse_buffer[GLOBAL_RESPONSE_BUFFER_SIZE];
+//uint8_t global_reponse_buffer[GLOBAL_RESPONSE_BUFFER_SIZE];
 //used to send buffer individually
-uint8_t global_L1_header_buffer[L1_HEADER_SIZE];
+//uint8_t global_L1_header_buffer[L1_HEADER_SIZE];
 L1_Send_Content sendContent[1];
-uint16_t L1_sequence_id = 0;
+//uint16_t L1_sequence_id = 0;
 L1_Header_Schedule_type_t L1_header_need_schedule = {NULL, 0};
 
 /** CRC table for the CRC-16. The poly is 0x8005 (x^16 + x^15 + x^2 + 1) */
@@ -74,59 +74,7 @@ uint16_t bd_crc16(uint16_t crc, uint8_t const *buffer, uint16_t len)
     return crc;
 }
 
-void generate_l2_package(
-                         L2_Send_Content *content,
-                         BLUETOOTH_COMMUNICATE_COMMAND id,
-                         uint8_t key,
-                         uint16_t length,
-                         uint8_t* value)
-{
 #if 0
-    global_reponse_buffer[0] = id;     /*command id*/
-    global_reponse_buffer[1] = L2_HEADER_VERSION;           /*L2 header version */
-    global_reponse_buffer[2] = key;             /*echo return*/
-    global_reponse_buffer[3] = length >> 8;
-    global_reponse_buffer[4] = (uint8_t)(length & 0x00FF);
-#else
-    global_reponse_buffer[8] = id;     /*command id*/
-    global_reponse_buffer[9] = L2_HEADER_VERSION;           /*L2 header version */
-    global_reponse_buffer[10] = key;             /*echo return*/
-    global_reponse_buffer[11] = length >> 8;
-    global_reponse_buffer[12] = (uint8_t)(length & 0x00FF);
-#endif
-    for(int i = 0; i < length; i++) {
-        global_reponse_buffer[L1_HEADER_SIZE + 5 + i] = value[i];
-    }
-    
-    content->callback    = 0;//send_callback;
-    content->content     = global_reponse_buffer + L1_HEADER_SIZE;
-    content->length      = L2_HEADER_SIZE + L2_PAYLOAD_HEADER_SIZE + length;   /*length of whole L2*/
-}
-
-void generate_l1_package(L2_Send_Content *l2_content, L1_Send_Content *l1_content)
-{
-    /*fill header*/
-    global_L1_header_buffer[L1_HEADER_MAGIC_POS] = L1_HEADER_MAGIC;           /* Magic */
-    global_L1_header_buffer[L1_HEADER_PROTOCOL_VERSION_POS] = L1_HEADER_VERSION;       /* protocol version */
-    global_L1_header_buffer[L1_PAYLOAD_LENGTH_HIGH_BYTE_POS] = (l2_content->length >> 8 & 0xFF);    /* length high byte */
-    global_L1_header_buffer[L1_PAYLOAD_LENGTH_LOW_BYTE_POS] = (l2_content->length & 0xFF);      /* length low byte */
-    /*cal crc*/
-    uint16_t crc16_ret = bd_crc16(0, l2_content->content, l2_content->length);
-    global_L1_header_buffer[L1_HEADER_CRC16_HIGH_BYTE_POS] = ( crc16_ret >> 8) & 0xff;
-    global_L1_header_buffer[L1_HEADER_CRC16_LOW_BYTE_POS] = crc16_ret & 0xff;
-    
-    //sequence id
-    global_L1_header_buffer[L1_HEADER_SEQ_ID_HIGH_BYTE_POS] = (L1_sequence_id >> 8) & 0xff;
-    global_L1_header_buffer[L1_HEADER_SEQ_ID_LOW_BYTE_POS] = L1_sequence_id & 0xff;
-    
-    memcpy(global_reponse_buffer, global_L1_header_buffer, L1_HEADER_SIZE);
-    
-    l1_content->content = global_reponse_buffer;
-    l1_content->length = l2_content->length + L1_HEADER_SIZE;
-    l1_content->contentLeft = l1_content->length;
-    l1_content->sequence_id = L1_sequence_id++;
-}
-
 uint32_t L1_send(L2_Send_Content * content)
 {
     uint32_t err_code;
@@ -190,3 +138,4 @@ uint32_t L1_send(L2_Send_Content * content)
     
 }
 
+#endif
